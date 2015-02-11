@@ -16,6 +16,7 @@ public class FoodInFridgeContract {
         public static final String COLUMN_NAME_EXP_DATE = "exp_date";
         public static final String COLUMN_NAME_AMOUNT = "amount";
         public static final String COLUMN_NAME_POSITION = "position";
+        public static final String COLUMN_NAME_HISTORY = "history";
     }
 
     public static class FIFData {
@@ -25,6 +26,7 @@ public class FoodInFridgeContract {
         public Date exp_date;
         public int amount;
         public String position;
+        public int history;
     }
 
     public static final String SQL_CREATE_TABLE =
@@ -33,8 +35,9 @@ public class FoodInFridgeContract {
                     FoodInFridge.COLUMN_NAME_FOOD_ID + SqlWords.INT_TYPE + SqlWords.NOT_NULL + SqlWords.COMMA_SEP +
                     FoodInFridge.COLUMN_NAME_REG_DATE + SqlWords.DATE_TYPE + SqlWords.NOT_NULL + SqlWords.COMMA_SEP +
                     FoodInFridge.COLUMN_NAME_EXP_DATE + SqlWords.DATE_TYPE + SqlWords.NOT_NULL + SqlWords.COMMA_SEP +
-                    FoodInFridge.COLUMN_NAME_AMOUNT + SqlWords.INT_TYPE + " DEFAULT=1" + SqlWords.COMMA_SEP +
+                    FoodInFridge.COLUMN_NAME_AMOUNT + SqlWords.INT_TYPE + SqlWords.DEFAULT(1) + SqlWords.COMMA_SEP +
                     FoodInFridge.COLUMN_NAME_POSITION + SqlWords.TEXT_TYPE + SqlWords.NOT_NULL + SqlWords.COMMA_SEP +
+                    FoodInFridge.COLUMN_NAME_HISTORY + SqlWords.INT_TYPE + SqlWords.DEFAULT(0) + SqlWords.COMMA_SEP +
                     SqlWords.FOREIGN_KEY(FoodInFridge.COLUMN_NAME_FOOD_ID, FoodInfoContract.FoodInfo.TABLE_NAME, FoodInfoContract.FoodInfo._ID) + SqlWords.ON_DELETE_CASCADE + SqlWords.COMMA_SEP +
                     " )";
 

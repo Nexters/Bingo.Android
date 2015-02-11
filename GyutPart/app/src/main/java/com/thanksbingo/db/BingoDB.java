@@ -75,9 +75,9 @@ public class BingoDB {
 
     public void loadFoodInfoDataFromServerAndStoreThemOnDB() {
 
-        BingoHttpClient client = new BingoHttpClient();
+        BingoHttpClient bh_client = new BingoHttpClient();
         final String subURL = "bingo_api/get_food_info/";
-        client.sendGetRequest(subURL, null, new AsyncHttpResponseHandler() {
+        bh_client.sendGetRequest(subURL, null, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int resp_code, Header[] headers, byte[] bytes) {
                 try {
@@ -116,6 +116,11 @@ public class BingoDB {
 
             }
         });
+    }
+
+    public void updateFoodInfoDataDB() {
+        BingoHttpClient bh_client = new BingoHttpClient();
+
     }
 
 

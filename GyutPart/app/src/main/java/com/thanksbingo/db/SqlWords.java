@@ -12,11 +12,11 @@ public final class SqlWords {
     public static final String DATE_TYPE = " DATE";
 
     public static String DEFAULT(int value) {
-        return " DEFAULT=" + value;
+        return " DEFAULT " + value;
     }
 
     public static String DEFAULT(String value) {
-        return " DEFAULT=" + value;
+        return " DEFAULT " + value;
     }
 
     public static String FOREIGN_KEY(String column_in_this_table, String target_table, String column_in_target_table) {

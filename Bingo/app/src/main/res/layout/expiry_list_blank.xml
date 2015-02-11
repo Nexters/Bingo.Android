@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!--비어있는 textview. 아무 내용도 없으면 공간 차지가 안되나봄 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text=""/>
+
+</LinearLayout>

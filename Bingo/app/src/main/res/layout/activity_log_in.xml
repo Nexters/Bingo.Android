@@ -1,0 +1,197 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1280"
+    android:background="#7ae4dd">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="800">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/intro_img"
+            android:layout_centerInParent="true"/>
+        </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="110"
+        android:orientation="horizontal"
+        android:weightSum="720">
+        <!-- 여백 -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="55"></LinearLayout>
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="610"
+            android:background="@drawable/login_btn_selector"
+            android:weightSum="610"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:padding="0px">
+            <RelativeLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="110">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_facebook_selector"/>
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#c9c9c9"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"></LinearLayout>
+                </RelativeLayout>
+            <Button
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="500"
+                android:gravity="center"
+                android:background="@android:color/transparent"
+                android:text="페이스북으로 로그인"
+                android:padding="0px"
+                android:textSize="15dp"
+                android:textColor="@drawable/login_text_selector"
+                android:textStyle="bold"
+                android:clickable="false"/>
+
+            </LinearLayout>
+        <!-- 여백 -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="55"></LinearLayout>
+
+        </LinearLayout>
+    <!-- 카카오 계정으로~ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="110"
+        android:orientation="horizontal"
+        android:weightSum="720">
+        <!-- 여백 -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="55"></LinearLayout>
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="610"
+            android:background="@drawable/login_btn_selector"
+            android:weightSum="610"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:padding="0px">
+            <RelativeLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="110">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_kakao_selector"/>
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#c9c9c9"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"></LinearLayout>
+            </RelativeLayout>
+            <Button
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="500"
+                android:gravity="center"
+                android:background="@android:color/transparent"
+                android:text="카카오계정으로 로그인"
+                android:padding="0px"
+                android:textSize="15dp"
+                android:textColor="@drawable/login_text_selector"
+                android:textStyle="bold"
+                android:clickable="false"/>
+
+        </LinearLayout>
+        <!-- 여백 -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="55"></LinearLayout>
+
+    </LinearLayout>
+    <!-- 회원가입 및 로그인 버튼 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="110"
+        android:orientation="horizontal"
+        android:weightSum="720">
+        <!-- 여백 -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="100"></LinearLayout>
+        <!-- 회원가입 -->
+        <Button
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="260"
+            android:text="회원가입"
+            android:textSize="16dp"
+            android:textColor="@drawable/login_text_selector2"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:textStyle="bold"
+            />
+        <!-- 로그인 -->
+        <Button
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="260"
+            android:text="로그인"
+            android:textSize="16dp"
+            android:textColor="@drawable/login_text_selector2"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:id="@+id/log_in_btn_to_main"
+            android:textStyle="bold"/>
+        <!-- 여백 -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="100"></LinearLayout>
+
+        </LinearLayout>
+    <!-- 여백 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="150"></LinearLayout>
+    <EditText
+        android:id="@+id/log_in_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID"
+        android:visibility="gone"
+        />
+    <EditText
+        android:id="@+id/log_in_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="PASSWORD"
+        android:visibility="gone"
+        />
+
+</LinearLayout>

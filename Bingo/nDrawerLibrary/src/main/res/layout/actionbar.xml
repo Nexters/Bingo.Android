@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/actionBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:contentInsetEnd="0dp"
+    app:contentInsetStart="0dp" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#4ac6be"
+        android:orientation="horizontal"
+        android:weightSum="720">
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="110">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_menu"
+                android:scaleType="fitCenter"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="500">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_bingo"
+                android:scaleType="fitCenter"/>
+            </RelativeLayout>
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="110">
+            <ImageView
+                android:id="@+id/actionbar_alarm"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_alarm"
+                android:scaleType="fitCenter"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+</android.support.v7.widget.Toolbar>
