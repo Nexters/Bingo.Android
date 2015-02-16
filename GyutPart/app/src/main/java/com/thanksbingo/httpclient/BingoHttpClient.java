@@ -55,6 +55,27 @@ public class BingoHttpClient {
         });
     }
 
+    public static void updateExtraFoodOnServerDB(String food_name) {
+
+        AsyncHttpClient _client = new AsyncHttpClient();
+        final String sub_url = "bingo_api/update_extra_food/";
+
+        RequestParams params = new RequestParams();
+        params.add("food_name", food_name);
+
+        _client.post(BASE_URL + sub_url, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
+    }
+
 //    public static void getFoodInfoJsonData() {
 //
 //        AsyncHttpClient clientForFoodInfo = new AsyncHttpClient();

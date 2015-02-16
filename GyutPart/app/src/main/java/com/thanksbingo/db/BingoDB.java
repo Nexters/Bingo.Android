@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -64,13 +65,9 @@ public class BingoDB {
     }
 
     /*
-    1. FoodInfo Table 에 새로운 데이터를 INSERT 할 때,
-        public void writeDataToFoodInfoTable(FoodInfoContract.FIData data)
-        public void writeDataToFoodInfoTable(String food_name, int rec_exp_date, String icon_img_path1, String icon_img_path2, long frequency)
-        public void writeDataToFoodInfoTable(ArrayList<FoodInfoContract.FIData> data)
-
-    2.
-
+    *
+    *
+    *
      */
 
     public void loadAndStoreFoodInfoStartActivity(final Intent intent) {
@@ -81,43 +78,22 @@ public class BingoDB {
             @Override
             public void onSuccess(int resp_code, Header[] headers, byte[] bytes) {
                 try {
-                    String foodInfoList_json = new String(bytes, "UTF-8");
-                    IconDownloader icon_downloader = new IconDownloader(null, "/Bingo/Icons/");
+                    String resp_json = new String(bytes, "UTF-8");
 
                     try {
-                        JSONObject jObject = new JSONObject(foodInfoList_json);
+                        JSONObject jObject = new JSONObject(resp_json);
 
                         boolean need_update = jObject.getBoolean("need_update");
-
                         if (need_update) {
                             JSONArray jArray = new JSONArray(jObject.getString("food_info_list"));
 
                             int last_history = jObject.getInt("last_history");
-
-                            String LAST_HISTORY = "LAST HISTORY";
                             SharedPreferences sharedPref = context.getSharedPreferences(CONST_STRINGS.SP_FILE_KEY, Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
-
                             editor.putInt(CONST_STRINGS.SP_FOOD_INFO_LAST_HISTORY, last_history);
                             editor.commit();
 
-                            for (int i = 0; i < jArray.length(); i++) {
-                                JSONObject food_info = jArray.getJSONObject(i);
-                                FoodInfoContract.FIData data = new FoodInfoContract.FIData();
-                                data.food_id = food_info.getInt("food_id");
-                                data.food_name = food_info.getString("food_name");
-                                data.rec_exp = food_info.getInt("rec_exp");
-                                data.frequency = food_info.getInt("frequency");
-                                try {
-                                    data.icon_img1 = icon_downloader.downloadIconImage(food_info.getString("icon1"));
-                                    data.icon_img2 = icon_downloader.downloadIconImage(food_info.getString("icon2"));
-                                } catch (IconDownloader.NoIconUrlException e) {
-                                    e.printStackTrace();
-                                } catch (IconDownloader.UndecidedIconsDirPath e) {
-                                    e.printStackTrace();
-                                }
-                                writeDataToFoodInfoTable(data);
-                            }
+                            handleFoodInfoJSONArray(jArray);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -136,10 +112,100 @@ public class BingoDB {
         });
     }
 
-    public void updateFoodInfoDataDB() {
+    /*
+    *
+    *
+    *
+     */
+
+    public void updateFoodInfoTableOnDB() {
+
+        int last_history = 0;
+        final SharedPreferences sharedPref = context.getSharedPreferences(CONST_STRINGS.SP_FILE_KEY, Context.MODE_PRIVATE);
+        last_history = sharedPref.getInt(CONST_STRINGS.SP_FOOD_INFO_LAST_HISTORY, last_history);
+
         BingoHttpClient bh_client = new BingoHttpClient();
-        
+        final String subURL = "bingo_api/update_food_info/" + last_history + "/";
+
+        bh_client.sendGetRequest(subURL, null, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                try {
+                    String resp_json = new String(bytes, "UTF-8");
+                    try {
+                        JSONObject jObject = new JSONObject(resp_json);
+
+                        boolean need_update = jObject.getBoolean("need_update");
+                        if (need_update) {
+                            JSONArray type0_arr = new JSONArray(jObject.getString("type0"));
+                            if (type0_arr.length() != 0) {
+                                handleFoodInfoJSONArray(type0_arr);
+                            }
+                            JSONArray type1_arr = new JSONArray(jObject.getString("type1"));
+                            if (type1_arr.length() != 0) {
+
+                            }
+                            JSONArray type2_arr = new JSONArray(jObject.getString("type2"));
+                            if (type2_arr.length() != 0) {
+
+                            }
+
+                            int last_history = jObject.getInt("last_history");
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putInt(CONST_STRINGS.SP_FOOD_INFO_LAST_HISTORY, last_history);
+                            editor.commit();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int resp_code, Header[] headers, byte[] bytes, Throwable throwable) {
+                Log.i(CONST_STRINGS.BINGO_LOG, "updateFoodInfoTableOnDB method$ response code: " + resp_code);
+            }
+        });
     }
+
+    private void updateFoodInfoDataOnTable() {
+
+    }
+
+    private void handleFoodInfoJSONArray(JSONArray jArray) {
+        try {
+            IconDownloader icon_downloader = new IconDownloader(null, "/Bingo/Icons/");
+            for (int i = 0; i < jArray.length(); i++) {
+                JSONObject food_info = jArray.getJSONObject(i);
+                FoodInfoContract.FIData data = new FoodInfoContract.FIData();
+                data.food_id = food_info.getInt("food_id");
+                data.food_name = food_info.getString("food_name");
+                data.rec_exp = food_info.getInt("rec_exp");
+                data.frequency = food_info.getInt("frequency");
+                try {
+                    data.icon_img1 = icon_downloader.downloadIconImage(food_info.getString("icon1"));
+                    data.icon_img2 = icon_downloader.downloadIconImage(food_info.getString("icon2"));
+                } catch (IconDownloader.NoIconUrlException e) {
+                    e.printStackTrace();
+                } catch (IconDownloader.UndecidedIconsDirPath e) {
+                    e.printStackTrace();
+                }
+                writeDataToFoodInfoTable(data);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    //...
+
+    /*
+    *
+    *
+    *
+     */
 
     public void writeDataToFoodInFridgeTable(FoodInFridgeContract.FIFData data) {
         new SavingFoodInFridgeDataToDB().execute(data);
@@ -157,7 +223,7 @@ public class BingoDB {
 
                 ContentValues values = new ContentValues();
                 values.put(FoodInFridgeContract.FoodInFridge._ID, fif.food_id);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
                 values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_REG_DATE, dateFormat.format(fif.reg_date));
                 values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_EXP_DATE, dateFormat.format(fif.exp_date));
                 values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_AMOUNT, fif.amount);
@@ -173,11 +239,97 @@ public class BingoDB {
         }
     }
 
-    public void writeDataToFoodInfoTable(FoodInfoContract.FIData data) {
+    public void updateFoodInFridgeDataOnDB(FoodInFridgeContract.FIFData data) {
+        new UpdateFoodInFridgeDataOnDB().execute(data);
+    }
+    private class UpdateFoodInFridgeDataOnDB extends AsyncTask<FoodInFridgeContract.FIFData, Void, Void> {
+        @Override
+        protected Void doInBackground(FoodInFridgeContract.FIFData... fif_arr) {
+
+            db = db_helper.getReadableDatabase();
+
+            int param_cnt = fif_arr.length;
+            for (int i = 0; i < param_cnt; i++) {
+                FoodInFridgeContract.FIFData fif = fif_arr[i];
+
+                ContentValues values = new ContentValues();
+                values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_ID, fif.food_id);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+                values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_REG_DATE, dateFormat.format(fif.reg_date));
+                values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_EXP_DATE, dateFormat.format(fif.exp_date));
+                values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_AMOUNT, fif.amount);
+                values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_POSITION, fif.position);
+                values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_HISTORY, fif.history);
+
+                String selection = FoodInFridgeContract.FoodInFridge._ID + " == ?";
+                String[] selectionArgs = { String.valueOf(fif._id) };
+
+                int cnt = db.update(
+                        FoodInFridgeContract.FoodInFridge.TABLE_NAME,
+                        values,
+                        selection,
+                        selectionArgs
+                );
+            }
+
+            return null;
+        }
+    }
+
+    public void deleteFoodInFridgeDataOnDB(int _id) {
+        new DeleteFoodInFridgeDataOnDB().execute(_id);
+    }
+    private class DeleteFoodInFridgeDataOnDB extends AsyncTask<Integer, Void, Void> {
+        @Override
+        protected Void doInBackground(Integer... _ids) {
+
+            db = db_helper.getReadableDatabase();
+
+            int param_cnt = _ids.length;
+            for (int i = 0; i < param_cnt; i++) {
+                int _id = _ids[i];
+                String selection = FoodInFridgeContract.FoodInFridge._ID + " == ?";
+                String[] selectionArgs = { String.valueOf(_id) };
+                db.delete(FoodInFridgeContract.FoodInFridge.TABLE_NAME, selection, selectionArgs);
+            }
+            return null;
+        }
+    }
+
+    public void deleteFoodInFridgeDataOnDB(ArrayList<Integer> _ids) {
+
+    }
+    private class DeleteFoodFridgeDataOnDB2 extends AsyncTask<ArrayList<Integer>, Void, Void> {
+        @Override
+        protected Void doInBackground(ArrayList<Integer>... params) {
+
+            db = db_helper.getReadableDatabase();
+
+            int param_cnt = params.length;
+            for (int i = 0; i < param_cnt; i++) {
+                ArrayList<Integer> _ids = params[i];
+                for (int j = 0; j < params[i].size(); j++) {
+                    int _id = _ids.get(j);
+                    String selection = FoodInFridgeContract.FoodInFridge._ID + " == ?";
+                    String[] selectionArgs = { String.valueOf(_id) };
+                    db.delete(FoodInFridgeContract.FoodInFridge.TABLE_NAME, selection, selectionArgs);
+                }
+            }
+            return null;
+        }
+    }
+
+
+    /*
+    *
+    *
+    *
+     */
+    private void writeDataToFoodInfoTable(FoodInfoContract.FIData data) {
 
         new SavingFoodInfoDataToDB().execute(data);
     }
-    public void writeDataToFoodInfoTable(int food_id, String food_name, int rec_exp_date, String icon_img1, String icon_img2, long frequency) {
+    private void writeDataToFoodInfoTable(int food_id, String food_name, int rec_exp_date, String icon_img1, String icon_img2, long frequency) {
 
         FoodInfoContract.FIData data = new FoodInfoContract.FIData();
         data.food_id = food_id;
@@ -220,42 +372,11 @@ public class BingoDB {
         }
     }
 
-    public void writeDataToFoodInfoTable(ArrayList<FoodInfoContract.FIData> data) {
-
-        new SavingFoodInfoArrayDataToDB().execute(data);
-    }
-    private class SavingFoodInfoArrayDataToDB extends AsyncTask<ArrayList<FoodInfoContract.FIData>, Void, Void> {
-        protected Void doInBackground(ArrayList<FoodInfoContract.FIData>... food_info_list) {
-
-            db = db_helper.getWritableDatabase();
-
-            int count = food_info_list.length;
-            // food_info[i] -->> ArrayList
-            for (int i = 0; i < count; i++) {
-                for (int j = 0; j < food_info_list[i].size(); j++) {
-                    ContentValues values = new ContentValues();
-                    FoodInfoContract.FIData food_info = food_info_list[i].get(j);
-                    values.put(FoodInfoContract.FoodInfo._ID, food_info.food_id);
-                    values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_FOOD_NAME, food_info.food_name);
-                    values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_REC_EXP, food_info.rec_exp);
-                    values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG1, food_info.icon_img1);
-                    values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG2, food_info.icon_img2);
-                    values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_FREQUENCY, food_info.frequency);
-
-                    db.insert(
-                            FoodInfoContract.FoodInfo.TABLE_NAME,
-                            "null",
-                            values
-                    );
-                }
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(Void v) {
-        }
-    }
+    /*
+    *
+    *
+    *
+     */
 
     public void getFoodList(OnGetFoodListHandler handler) {
         new GetFoodList().execute(handler);
@@ -309,6 +430,45 @@ public class BingoDB {
             super.onPostExecute(v);
         }
     }
+
+
+//    private void writeDataToFoodInfoTable(ArrayList<FoodInfoContract.FIData> data) {
+//
+//        new SavingFoodInfoArrayDataToDB().execute(data);
+//    }
+//    private class SavingFoodInfoArrayDataToDB extends AsyncTask<ArrayList<FoodInfoContract.FIData>, Void, Void> {
+//        protected Void doInBackground(ArrayList<FoodInfoContract.FIData>... food_info_list) {
+//
+//            db = db_helper.getWritableDatabase();
+//
+//            int count = food_info_list.length;
+//            // food_info[i] -->> ArrayList
+//            for (int i = 0; i < count; i++) {
+//                for (int j = 0; j < food_info_list[i].size(); j++) {
+//                    ContentValues values = new ContentValues();
+//                    FoodInfoContract.FIData food_info = food_info_list[i].get(j);
+//                    values.put(FoodInfoContract.FoodInfo._ID, food_info.food_id);
+//                    values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_FOOD_NAME, food_info.food_name);
+//                    values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_REC_EXP, food_info.rec_exp);
+//                    values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG1, food_info.icon_img1);
+//                    values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG2, food_info.icon_img2);
+//                    values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_FREQUENCY, food_info.frequency);
+//
+//                    db.insert(
+//                            FoodInfoContract.FoodInfo.TABLE_NAME,
+//                            "null",
+//                            values
+//                    );
+//                }
+//            }
+//
+//            return null;
+//        }
+//
+//        protected void onPostExecute(Void v) {
+//        }
+//    }
+
 
 //    private ArrayList<OtherClasses.SomeFood> __getFoodList() {
 //

@@ -21,6 +21,7 @@ public class FoodInFridgeContract {
 
     public static class FIFData {
 
+        public int _id;
         public int food_id;
         public Date reg_date;
         public Date exp_date;
@@ -38,7 +39,7 @@ public class FoodInFridgeContract {
                     FoodInFridge.COLUMN_NAME_AMOUNT + SqlWords.INT_TYPE + SqlWords.DEFAULT(1) + SqlWords.COMMA_SEP +
                     FoodInFridge.COLUMN_NAME_POSITION + SqlWords.TEXT_TYPE + SqlWords.NOT_NULL + SqlWords.COMMA_SEP +
                     FoodInFridge.COLUMN_NAME_HISTORY + SqlWords.INT_TYPE + SqlWords.DEFAULT(0) + SqlWords.COMMA_SEP +
-                    SqlWords.FOREIGN_KEY(FoodInFridge.COLUMN_NAME_FOOD_ID, FoodInfoContract.FoodInfo.TABLE_NAME, FoodInfoContract.FoodInfo._ID) + SqlWords.ON_DELETE_CASCADE + SqlWords.COMMA_SEP +
+                    SqlWords.FOREIGN_KEY(FoodInFridge.COLUMN_NAME_FOOD_ID, FoodInfoContract.FoodInfo.TABLE_NAME, FoodInfoContract.FoodInfo._ID) + SqlWords.ON_DELETE_CASCADE +
                     " )";
 
     public static final String SQL_DELETE_TABLE =
