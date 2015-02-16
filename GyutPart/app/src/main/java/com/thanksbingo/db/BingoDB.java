@@ -70,7 +70,7 @@ public class BingoDB {
     *
      */
 
-    public void loadAndStoreFoodInfoStartActivity(final Intent intent) {
+    public void loadAndStoreFoodInfoStartActivity(final Class<?> cls) {
 
         BingoHttpClient bh_client = new BingoHttpClient();
         final String subURL = "bingo_api/get_food_info/";
@@ -101,7 +101,7 @@ public class BingoDB {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-
+                Intent intent = new Intent(context, cls);
                 context.startActivity(intent);
             }
 
