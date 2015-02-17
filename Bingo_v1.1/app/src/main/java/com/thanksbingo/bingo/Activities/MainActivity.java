@@ -29,6 +29,7 @@ import java.util.List;
 import br.liveo.interfaces.NavigationLiveoListener;
 import br.liveo.navigationliveo.NavigationLiveo;
 
+// 탁다임은 멍청하다.
 
 public class MainActivity extends NavigationLiveo implements NavigationLiveoListener, MyBingoFragment.OnFragmentInteractionListener {
 
