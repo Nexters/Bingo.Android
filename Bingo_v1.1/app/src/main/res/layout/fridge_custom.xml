@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1280">
+    <!-- 여백 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="60"></LinearLayout>
+    <!-- 냉장고 형태 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="110"
+        android:orientation="horizontal"
+        android:weightSum="720">
+        <!-- 여백 -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="15"></LinearLayout>
+        <!-- 흰색 박스 -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="690"
+            android:orientation="horizontal"
+            android:background="@drawable/box_radius_white"
+            android:weightSum="690"
+            android:padding="0px">
+            <!-- 여백 -->
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="30"></LinearLayout>
+            <!-- 냉장고 형태 텍스트와 스피너 -->
+            <RelativeLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="630">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11dp"
+                    android:text="냉장고 형태"
+                    android:textColor="#4e4e4e"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true" />
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/spinner_fridge"
+                    android:background="@drawable/box_radius_white"></Spinner>
+            </RelativeLayout>
+            <!-- 여백 -->
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="30"></LinearLayout>
+        </LinearLayout>
+        <!-- 여백 -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="15"></LinearLayout>
+    </LinearLayout>
+    <!-- 여백 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="60"></LinearLayout>
+    <!--냉장고 이미지 -->
+    <!--냉장고 이미지 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="340">
+        <!-- 일체형 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="720"
+            android:visibility="visible"
+            android:id="@+id/one_door">
+            <!-- 여백 -->
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="160"></LinearLayout>
+            <!-- 일체형 냉장고 나뉘는 부분 -->
+            <FrameLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="400">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/fridge" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:weightSum="340">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0px"
+                        android:layout_weight="140"
+                        android:orientation="horizontal">
+                        <!-- 냉동실 문 -->
+                        <RelativeLayout
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/dongdoor_one"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text=""
+                                android:textSize="15dp" />
+                        </RelativeLayout>
+                        <!-- 냉동실 안 -->
+                        <RelativeLayout
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/dong_one"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text=""
+                                android:textSize="15dp" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0px"
+                        android:layout_weight="200"
+                        android:orientation="horizontal">
+                        <!-- 냉장실 문 -->
+                        <RelativeLayout
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/jangdoor_one"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text=""
+                                android:textSize="15dp" />
+
+                        </RelativeLayout>
+                        <!-- 냉장실 안 -->
+                        <RelativeLayout
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/jang_one"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text=""
+                                android:textSize="15dp" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+            <!-- 여백 -->
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="160"></LinearLayout>
+        </LinearLayout>
+        <!-- 양문형 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="720"
+            android:visibility="gone"
+            android:id="@+id/two_door">
+            <!-- 여백 -->
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="100"></LinearLayout>
+            <!-- 양문형 냉장고 나뉘는 부분 -->
+            <FrameLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="520">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/fridge_2door" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <!-- 냉동실 문 -->
+                    <RelativeLayout
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/dongdoor_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:textSize="15dp" />
+
+
+                    </RelativeLayout>
+                    <!-- 냉동실 안 -->
+                    <RelativeLayout
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/dong_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:textSize="15dp" />
+
+                    </RelativeLayout>
+                    <!-- 냉장실 안 -->
+                    <RelativeLayout
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/jang_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:textSize="15dp" />
+
+                    </RelativeLayout>
+                    <!-- 냉장실 문 -->
+                    <RelativeLayout
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/jangdoor_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:textSize="15dp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </FrameLayout>
+            <!-- 여백 -->
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="100"></LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+    <!-- 여백 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="60"></LinearLayout>
+    <!-- 냉장고 칸 설정하는 흰색 화면 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="310"
+        android:weightSum="720"
+        android:orientation="horizontal">
+        <!-- 여백 -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="15"></LinearLayout>
+        <!-- 흰색 박스 -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="690"
+            android:orientation="horizontal"
+            android:weightSum="690"
+            android:background="@drawable/box_radius_white"
+            android:padding="0px">
+            <!-- 여백 -->
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="30"></LinearLayout>
+            <!-- 텍스트 4개 -->
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="630"
+                android:orientation="vertical"
+                android:weightSum="310">
+                <!-- 여백 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="30"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="250"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0px"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="11dp"
+                            android:text="냉동실 문"
+                            android:textColor="#4e4e4e"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true" />
+
+                        <Spinner
+                            android:id="@+id/spinner_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:prompt="@null"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:padding="0px"
+                            android:background="@drawable/box_radius_white"></Spinner>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0px"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="11dp"
+                            android:text="냉동실 안"
+                            android:textColor="#4e4e4e"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true" />
+
+                        <Spinner
+                            android:id="@+id/spinner_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="0px"
+                            android:prompt="@null"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/box_radius_white"></Spinner>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0px"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="11dp"
+                            android:text="냉장실 안"
+                            android:textColor="#4e4e4e"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true" />
+
+                        <Spinner
+                            android:id="@+id/spinner_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:prompt="@null"
+                            android:padding="0px"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/box_radius_white"></Spinner>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0px"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="11dp"
+                            android:text="냉장실 문"
+                            android:textColor="#4e4e4e"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true" />
+
+                        <Spinner
+                            android:id="@+id/spinner_4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:prompt="@null"
+                            android:padding="0px"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/box_radius_white"></Spinner>
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <!-- 여백 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="30"></LinearLayout>
+            </LinearLayout>
+            <!-- 여백 -->
+            <LinearLayout
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="30"></LinearLayout>
+        </LinearLayout>
+        <!-- 여백 -->
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="15"></LinearLayout>
+
+    </LinearLayout>
+    <!-- 여백 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="60"></LinearLayout>
+    <!-- 여백 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="120"></LinearLayout>
+    <!-- 버튼 두개 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="100"
+        android:orientation="horizontal"
+        android:weightSum="720">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_reset" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_apply" />
+    </LinearLayout>
+    <!-- 여백 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="60"></LinearLayout>
+</LinearLayout>

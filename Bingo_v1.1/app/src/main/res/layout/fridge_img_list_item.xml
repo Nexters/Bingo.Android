@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="30dp">
+
+    <TextView
+        android:id="@+id/fridge_img_dday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="디데이"
+        android:layout_gravity="center"
+        android:textSize="12sp"
+        android:background="@drawable/box_radius_red"
+        android:textColor="#ffffff"/>
+
+    <ImageView
+        android:id="@+id/fridge_img_icon"
+        android:layout_width="75dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_launcher"
+        android:layout_gravity="center"
+        android:text="fridge_img_view" />
+
+    <TextView
+        android:id="@+id/fridge_img_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이름"
+        android:layout_gravity="center"
+        android:textSize="12sp" />
+</LinearLayout>
