@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/devsmartAndroid/devsmartAndroid.iml" filepath="$PROJECT_DIR$/devsmartAndroid/devsmartAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/nDrawerLibrary/nDrawerLibrary.iml" filepath="$PROJECT_DIR$/nDrawerLibrary/nDrawerLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nDrawerLibrary/nDrawerLibrary.iml" filepath="$PROJECT_DIR$/nDrawerLibrary/nDrawerLibrary.iml" />
     </modules>
   </component>
 </project>

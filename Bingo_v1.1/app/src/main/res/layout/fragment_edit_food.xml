@@ -1,7 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="290dp" android:layout_height="455dp"
     >
-    <!-- 음식물을 클릭하면 보여주기 및 수정하기 -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,8 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0px"
-            android:layout_weight="15">
-        </LinearLayout>
+            android:layout_weight="15"></LinearLayout>
         <!--물품, 마이크 -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,8 +27,7 @@
             <LinearLayout
                 android:layout_width="0px"
                 android:layout_height="match_parent"
-                android:layout_weight="55">
-            </LinearLayout>
+                android:layout_weight="55"></LinearLayout>
             <!--물품과 아래 빈 공간 -->
             <LinearLayout
                 android:layout_width="0px"
@@ -42,19 +39,30 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0px"
-                    android:layout_weight="40">
-                </LinearLayout>
+                    android:layout_weight="40"></LinearLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0px"
                     android:layout_weight="60">
-                    <EditText
-                        android:id="@+id/edit_food_fragment_foodname"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="물품"
-                        android:textSize="12dp"
-                        android:layout_alignParentTop="true"/>
+                        android:orientation="horizontal"
+                        android:weightSum="400"
+                        android:layout_alignParentTop="true">
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="100"
+                            android:text="물품"
+                            android:textSize="12dp"/>
+                        <EditText
+                            android:id="@+id/edit_food_fragment_foodname"
+                            android:layout_width="0px"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="300"
+                            android:textSize="12dp"/>
+                    </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
             <!--여백 -->
@@ -74,7 +82,8 @@
                     android:src="@drawable/ic_mic_none_main_color"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitEnd"/>
+                    android:scaleType="fitStart"
+                    android:clickable="true"/>
             </LinearLayout>
             <!--오른쪽 그림자 여백 -->
             <LinearLayout
@@ -104,37 +113,77 @@
                     android:layout_width="match_parent"
                     android:layout_height="0px"
                     android:layout_weight="60">
-                    <EditText
-                        android:id="@+id/edit_food_fragment_foodnum"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="갯수"
-                        android:textSize="12dp"
-                        android:layout_alignParentTop="true"/>
+                        android:orientation="horizontal"
+                        android:weightSum="470"
+                        android:layout_alignParentTop="true">
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="100"
+                            android:text="갯수"
+                            android:textSize="12dp"/>
+                        <EditText
+                            android:id="@+id/edit_food_fragment_foodnum"
+                            android:layout_width="0px"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:layout_weight="370"
+                            android:inputType="number"/>
+                    </LinearLayout>
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0px"
                     android:layout_weight="60">
-                    <EditText
-                        android:id="@+id/edit_food_fragment_entered_date"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="등록일자"
-                        android:textSize="12dp"
-                        android:layout_alignParentTop="true"/>
+                        android:orientation="horizontal"
+                        android:weightSum="470"
+                        android:layout_alignParentTop="true">
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="100"
+                            android:text="등록일자"
+                            android:textSize="12dp"
+                            />
+                        <EditText
+                            android:id="@+id/edit_food_fragment_entered_date"
+                            android:layout_width="0px"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:layout_weight="370"
+                            android:editable="false"/>
+                    </LinearLayout>
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0px"
                     android:layout_weight="60">
-                    <EditText
-                        android:id="@+id/edit_food_fragment_edit_expiry"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="유통기한"
-                        android:textSize="12dp"
-                        android:layout_alignParentTop="true"/>
+                        android:orientation="horizontal"
+                        android:weightSum="470"
+                        android:layout_alignParentTop="true">
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="100"
+                            android:text="유통기한"
+                            android:textSize="12dp"/>
+                        <EditText
+                            android:id="@+id/edit_food_fragment_edit_expiry"
+                            android:layout_width="0px"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:layout_weight="370"
+                            android:editable="false"/>
+                    </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
             <!--여백 -->

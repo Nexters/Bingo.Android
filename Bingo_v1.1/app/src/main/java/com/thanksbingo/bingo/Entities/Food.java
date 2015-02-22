@@ -8,7 +8,7 @@ public final class Food {
     private String foodName ="";
     private String boughtDate = "";
     private String expiryDate = "";
-
+     public boolean flagFooter;
     public Food(){}
 
     public Food(int i, String n, int c, String db, String de) {
