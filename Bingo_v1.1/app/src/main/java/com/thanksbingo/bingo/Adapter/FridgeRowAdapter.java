@@ -1,6 +1,7 @@
 package com.thanksbingo.bingo.Adapter;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -115,7 +116,11 @@ public class FridgeRowAdapter extends ArrayAdapter<Food> {
             }
         }
 
-        holder.dday.setText(caldate(food.getExpiryDate()));
+        holder.dday.setText(caldate(food.fif.exp_date.toString()));
+        String icon_img_path = Environment.getExternalStorageState() + ICON_PATH;
+        icon_img_path += food.fif.
+        holder
+
         if (food.getFoodName() == null || food.getFoodName().equals("")) {
             holder.icon.setImageResource(R.drawable.ic_launcher);
         } else if (food.getFoodName() == "멸치") {

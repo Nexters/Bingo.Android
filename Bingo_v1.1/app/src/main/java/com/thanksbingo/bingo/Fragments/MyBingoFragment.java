@@ -18,6 +18,8 @@ import com.thanksbingo.bingo.AlertDialog.EditFoodFragment;
 import com.thanksbingo.bingo.AlertDialog.ViewFoodFragment;
 import com.thanksbingo.bingo.Entities.Food;
 import com.thanksbingo.bingo.R;
+import com.thanksbingo.db.BingoDB;
+import com.thanksbingo.db.FoodInFridgeContract;
 
 import java.util.ArrayList;
 
@@ -69,8 +71,22 @@ public class MyBingoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         foodList = new ArrayList<Food>();
-        foodList.add(new Food("사과", 3, "2011-01-31","2011-01-31"));
+        BingoDB bingoDB = new BingoDB(getActivity().getApplicationContext());
+        ArrayList<FoodInFridgeContract.FIFData> fif_list = bingoDB.getListOfFoodInFridge("0A01");
+        for (int i = 0; i < fif_list.size(); i++) {
+            Food f = new Food();
+            f.fif = fif_list.get(i);
+            f.flagFooter = false;
+            foodList.add(f);
+        }
+        Food f = new Food();
+        f.fif = null;
+        f.flagFooter = true;
+        foodList.add(f);
+
+//        foodList.add(new Food("사과", 3, "2011-01-31","2011-01-31"));
 //        foodList.add(new Food("베리", 4, "2011-01-31", "2015-02-01"));
 //        //can_beer, can_cola
 //        foodList.add(new Food("맥주", 7, "2011-01-31", "2015-01-02"));
@@ -79,17 +95,17 @@ public class MyBingoFragment extends Fragment {
 //        foodList.add(new Food("치킨", 15, "2011-01-31", "2015-04-31"));
 //        foodList.add(new Food("clam", 2, "2011-01-31", "2015-05-01"));
         //DD
-        Food f = new Food("flag", "flag");
-        f.flagFooter = true;
-        foodList.add(f);
+//        Food f = new Food("flag", "flag");
+//        f.flagFooter = true;
+//        foodList.add(f);
 
 
-        if (getArguments() != null) {
-            foodname = getArguments().getString(ARG_PARAM1);
-            count = getArguments().getInt(ARG_PARAM2);
-            boughtdate = getArguments().getString(ARG_PARAM3);
-            expirydate = getArguments().getString(ARG_PARAM4);
-        }
+//        if (getArguments() != null) {
+//            foodname = getArguments().getString(ARG_PARAM1);
+//            count = getArguments().getInt(ARG_PARAM2);
+//            boughtdate = getArguments().getString(ARG_PARAM3);
+//            expirydate = getArguments().getString(ARG_PARAM4);
+//        }
 
     }
 
@@ -105,12 +121,12 @@ public class MyBingoFragment extends Fragment {
         v.setLayoutParams(lp);
 */
 
-        if (getArguments() != null) {
-            foodname = getArguments().getString(ARG_PARAM1);
-            count = getArguments().getInt(ARG_PARAM2);
-            boughtdate = getArguments().getString(ARG_PARAM3);
-            expirydate = getArguments().getString(ARG_PARAM4);
-        }
+//        if (getArguments() != null) {
+//            foodname = getArguments().getString(ARG_PARAM1);
+//            count = getArguments().getInt(ARG_PARAM2);
+//            boughtdate = getArguments().getString(ARG_PARAM3);
+//            expirydate = getArguments().getString(ARG_PARAM4);
+//        }
 
 
 
@@ -125,11 +141,11 @@ public class MyBingoFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Food f = (Food) parent.getAdapter().getItem(position);
 
-                if(f.getFoodName().equals("flag")){
+                if(f.flagFooter == true){
                     callViewFoodDialog();
-                }else{
+                } else {
                 // 물품이름, 갯수, 등록일자, 유통기한
-                callEditFoodDialog(f.getFoodName(), f.getCount(), f.getBoughtDate(), f.getExpiryDate());
+                callEditFoodDialog(f.fif.food_name, f.fif.amount, f.fif.reg_date.toString(), f.fif.exp_date.toString());
 
                 }
 
