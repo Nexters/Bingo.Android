@@ -12,6 +12,7 @@ public class FoodInFridgeContract {
 
         public static final String TABLE_NAME = "FoodInFridge";
         public static final String COLUMN_NAME_FOOD_ID = "food_id";
+        public static final String COLUMN_NAME_FOOD_NAME = "food_name";
         public static final String COLUMN_NAME_REG_DATE = "reg_date";
         public static final String COLUMN_NAME_EXP_DATE = "exp_date";
         public static final String COLUMN_NAME_AMOUNT = "amount";
@@ -23,6 +24,7 @@ public class FoodInFridgeContract {
 
         public int _id;
         public int food_id;
+        public String food_name;
         public Date reg_date;
         public Date exp_date;
         public int amount;
@@ -34,6 +36,7 @@ public class FoodInFridgeContract {
             "CREATE TABLE " + FoodInFridge.TABLE_NAME + " (" +
                     FoodInFridge._ID + SqlWords.INT_TYPE + SqlWords.PRIMARY_KEY + SqlWords.AUTO_INC + SqlWords.COMMA_SEP +
                     FoodInFridge.COLUMN_NAME_FOOD_ID + SqlWords.INT_TYPE + SqlWords.NOT_NULL + SqlWords.COMMA_SEP +
+                    FoodInFridge.COLUMN_NAME_FOOD_NAME + SqlWords.TEXT_TYPE + SqlWords.NOT_NULL + SqlWords.COMMA_SEP +
                     FoodInFridge.COLUMN_NAME_REG_DATE + SqlWords.DATE_TYPE + SqlWords.NOT_NULL + SqlWords.COMMA_SEP +
                     FoodInFridge.COLUMN_NAME_EXP_DATE + SqlWords.DATE_TYPE + SqlWords.NOT_NULL + SqlWords.COMMA_SEP +
                     FoodInFridge.COLUMN_NAME_AMOUNT + SqlWords.INT_TYPE + SqlWords.DEFAULT(1) + SqlWords.COMMA_SEP +
