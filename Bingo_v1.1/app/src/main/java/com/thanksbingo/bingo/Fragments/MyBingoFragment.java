@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.devsmart.android.ui.HorizontalListView;
 import com.thanksbingo.bingo.Adapter.FridgeRowAdapter;
@@ -70,11 +71,11 @@ public class MyBingoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         foodList = new ArrayList<Food>();
-        foodList.add(new Food("사과", 3, "2011-01-31","2011-01-31"));
+        foodList.add(new Food("사과", 3, "2011-01-31", "2011-01-31"));
         foodList.add(new Food("베리", 4, "2011-01-31", "2015-02-01"));
         //can_beer, can_cola
         foodList.add(new Food("맥주", 7, "2011-01-31", "2015-01-02"));
-        foodList.add(new Food("콜라",9, "2011-01-31", "2015-02-02"));
+        foodList.add(new Food("콜라", 9, "2011-01-31", "2015-02-02"));
         foodList.add(new Food("당근", 12, "2011-01-31", "2015-03-30"));
         foodList.add(new Food("치킨", 15, "2011-01-31", "2015-04-31"));
         foodList.add(new Food("clam", 2, "2011-01-31", "2015-05-01"));
@@ -97,7 +98,7 @@ public class MyBingoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        v = (RelativeLayout) inflater.inflate(R.layout.activity_fridge_row1, container, false);
+        v = (LinearLayout) inflater.inflate(R.layout.fragment_fridge_row_image, container, false);
 /*
 
         int rowHeight = 3;
@@ -111,8 +112,6 @@ public class MyBingoFragment extends Fragment {
             boughtdate = getArguments().getString(ARG_PARAM3);
             expirydate = getArguments().getString(ARG_PARAM4);
         }
-
-
 
         //아이콘들을 붙일 레이아웃 동적 생성
         HorizontalListView listview = (HorizontalListView) v.findViewById(R.id.lv_fridge_img);
@@ -130,8 +129,6 @@ public class MyBingoFragment extends Fragment {
 
                 // 물품이름, 갯수, 등록일자, 유통기한
                 callEditFoodDialog(f.getFoodName(), f.getCount(), f.getBoughtDate(), f.getExpiryDate());
-
-
 
             }
         });
@@ -180,23 +177,22 @@ public class MyBingoFragment extends Fragment {
     }
 
 
-
     // 음식물 등록 Fragment
     private void callViewFoodDialog() {
         FragmentManager fm = getActivity().getSupportFragmentManager();
 
         ViewFoodFragment f = ViewFoodFragment.newInstance("Hello", "Hi");
-        f.show(fm,"");
+        f.show(fm, "");
     }
 
 
     // 음식물 수정 및 보기 Fragment
-    private void callEditFoodDialog(String foodname, int count, String boughtdate, String expirydate ) {
+    private void callEditFoodDialog(String foodname, int count, String boughtdate, String expirydate) {
 
         FragmentManager fm = getActivity().getSupportFragmentManager();
 
         EditFoodFragment f = EditFoodFragment.newInstance(foodname, count, boughtdate, expirydate);
-        f.show(fm,"");
+        f.show(fm, "");
     }
 
 

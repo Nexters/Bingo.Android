@@ -17,6 +17,7 @@ import com.thanksbingo.bingo.Entities.TimeAlarm;
 import com.thanksbingo.bingo.Fragments.CustomerFragment;
 import com.thanksbingo.bingo.Fragments.DeadlineFragment;
 import com.thanksbingo.bingo.Fragments.DeveloperFragment;
+import com.thanksbingo.bingo.Fragments.FridgeRow;
 import com.thanksbingo.bingo.Fragments.MyBingoFragment;
 import com.thanksbingo.bingo.Fragments.RecipeFragment;
 import com.thanksbingo.bingo.Fragments.StoregeFragment;
@@ -128,7 +129,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         switch (position) {
             //내 냉장고 보기
             case 0:
-                fragment = new MyBingoFragment();
+                fragment = new FridgeRow();
                 break;
             // 유통기한 임박품목
             case 1:
@@ -142,7 +143,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
                 break;
             //요리법
             case 5:
-                fragment = new RecipeFragment();
+                fragment = new FridgeRow();
                 break;
             // case 6 : 라인
             // 고객 센터
