@@ -47,10 +47,10 @@ public class CustomerFragment extends Fragment {
 
         foodList = new ArrayList<Food>();
         // 가짜 음식 리스트!
-        foodList.add(new Food("사과", 3, "2012-12-12", "2014-12-14"));
-        foodList.add(new Food("배", 1, "2012-02-12", "2014-05-17"));
-        foodList.add(new Food("양파", 7, "2014-04-22", "2014-11-14"));
-        foodList.add(new Food("고구마", 9, "2012-02-25", "2014-12-17"));
+//        foodList.add(new Food("사과", 3, "2012-12-12", "2014-12-14"));
+//        foodList.add(new Food("배", 1, "2012-02-12", "2014-05-17"));
+//        foodList.add(new Food("양파", 7, "2014-04-22", "2014-11-14"));
+//        foodList.add(new Food("고구마", 9, "2012-02-25", "2014-12-17"));
 
        // Log.d("고구마", "")
         getActivity().getWindow().getAttributes().format = PixelFormat.RGBA_8888;
