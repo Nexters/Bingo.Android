@@ -68,6 +68,36 @@ public class BingoDB {
      *      FoodInfo
      */
 
+    public int getFoodInfoIdOf(String food_name) {
+
+        int food_id = -1;
+
+        db = db_helper.getReadableDatabase();
+
+        String[] projection = {
+                FoodInfoContract.FoodInfo._ID
+        };
+        String selection = FoodInfoContract.FoodInfo.COLUMN_NAME_FOOD_NAME + " == ?";
+        String[] selectionArgs = { new String(food_name) };
+
+        Cursor c = db.query(
+                FoodInfoContract.FoodInfo.TABLE_NAME,      // The table to query
+                projection,                                 // The columns to return
+                selection,                                       // The columns for the WHERE clause
+                selectionArgs,                                       // The values for the WHERE clause
+                null,                                       // don't group the rows
+                null,                                       // don't filter by row groups
+                null                                   // The sort order
+        );
+
+        if (c.getCount() != 0) {
+            c.moveToFirst();
+            food_id = c.getInt(c.getColumnIndex(FoodInfoContract.FoodInfo._ID));
+        }
+
+        return food_id;
+    }
+
     /*
      *
      *

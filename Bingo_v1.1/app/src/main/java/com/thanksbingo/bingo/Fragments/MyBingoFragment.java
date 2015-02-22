@@ -50,9 +50,6 @@ public class MyBingoFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-
-    // TODO: Rename and change types and number of parameters
-    // TODO: Rename and change types and number of parameters
     public static MyBingoFragment newInstance(String foodname, int count, String boughtdate, String expirydate) {
         MyBingoFragment fragment = new MyBingoFragment();
         Bundle args = new Bundle();
@@ -142,7 +139,7 @@ public class MyBingoFragment extends Fragment {
                 Food f = (Food) parent.getAdapter().getItem(position);
 
                 if(f.flagFooter == true){
-                    callViewFoodDialog();
+                    callViewFoodDialog("0A01");
                 } else {
                 // 물품이름, 갯수, 등록일자, 유통기한
                 callEditFoodDialog(f.fif.food_name, f.fif.amount, f.fif.reg_date.toString(), f.fif.exp_date.toString());
@@ -198,10 +195,10 @@ public class MyBingoFragment extends Fragment {
 
 
     // 음식물 등록 Fragment
-    private void callViewFoodDialog() {
+    private void callViewFoodDialog(String loc_code) {
         FragmentManager fm = getActivity().getSupportFragmentManager();
 
-        ViewFoodFragment f = ViewFoodFragment.newInstance("Hello", "Hi");
+        ViewFoodFragment f = ViewFoodFragment.newInstance(loc_code, "Hi");
         f.show(fm,"");
     }
 

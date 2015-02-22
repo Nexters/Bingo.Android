@@ -19,18 +19,28 @@ import android.widget.ImageView;
 import com.thanksbingo.bingo.Calendar.CalendarFragment;
 import com.thanksbingo.bingo.R;
 import com.thanksbingo.bingo.speechtotext.SpeechToText;
+import com.thanksbingo.db.BingoDB;
+import com.thanksbingo.db.FoodInFridgeContract;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 
 public class ViewFoodFragment extends DialogFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String LOC_CODE = "LOC CODE";
     private static final String ARG_PARAM2 = "param2";
 
     public static EditText entered_date_text;
     public static EditText expiry_date_text;
 
     private EditText foodNameEditText;
+    private EditText foodAmountText;
+
     private SpeechToText stt;
+
+    BingoDB bingoDB;
     /*
     담이누나
     이 ViewFoodFragment가 달력이 있는 창이야
@@ -47,7 +57,7 @@ public class ViewFoodFragment extends DialogFragment {
     public static ViewFoodFragment newInstance(String param1, String param2) {
         ViewFoodFragment fragment = new ViewFoodFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putString(LOC_CODE, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -67,8 +77,11 @@ public class ViewFoodFragment extends DialogFragment {
 
         View v = inflater.inflate(R.layout.view_food_fragment, container, false);
 
+        bingoDB = new BingoDB(v.getContext());
+
         //음성인식 버튼 달기
         foodNameEditText = (EditText)v.findViewById(R.id.view_food_fragment_edit_foodname);
+        foodAmountText = (EditText)v.findViewById(R.id.view_food_fragment_edit_foodnum);
         ImageView mic = (ImageView)v.findViewById(R.id.view_food_fragment_image_mic);
         stt = new SpeechToText(getActivity());
         mic.setOnClickListener(new View.OnClickListener() {
@@ -125,12 +138,37 @@ public class ViewFoodFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dismissDialog();
+                        String food_name = foodNameEditText.getText().toString();
+                        food_name = food_name.replace(" ", "");
+//                        int food_id = bingoDB.getFoodInfoIdOf(food_name);
+//                        int food_amount = Integer.getInteger(foodAmountText.getText().toString());
+//                        String position = getArguments().getString(LOC_CODE);
+//                        String reg_date = entered_date_text.getText().toString();
+//                        String exp_date = expiry_date_text.getText().toString();
+//                        int history = 0;
+
+                        FoodInFridgeContract.FIFData fif = new FoodInFridgeContract.FIFData();
+                        fif.food_name = food_name;
+                        fif.food_id = bingoDB.getFoodInfoIdOf(food_name);
+                        fif.amount = Integer.parseInt(foodAmountText.getText().toString());
+                        fif.position = getArguments().getString(LOC_CODE);
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+                        try {
+                            fif.reg_date = sdf.parse(entered_date_text.getText().toString());
+                            fif.exp_date = sdf.parse(expiry_date_text.getText().toString());
+                        }
+                        catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        fif.history = 0;
+
+                        bingoDB.writeDataToFoodInFridgeTable(fif);
                     }
                 }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dismissDialog();
-                return;
+
             }
         });
         AlertDialog dialog = builder.create();
