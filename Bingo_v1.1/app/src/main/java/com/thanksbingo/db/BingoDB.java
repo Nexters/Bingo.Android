@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -257,7 +258,7 @@ public class BingoDB {
 
     private void handleFoodInfoJSONArray(JSONArray jArray) {
         try {
-            IconDownloader icon_downloader = new IconDownloader(null, "/Bingo/Icons/");
+            IconDownloader icon_downloader = new IconDownloader(null, CONST_STRINGS.ICON_PATH);
             for (int i = 0; i < jArray.length(); i++) {
                 JSONObject food_info = jArray.getJSONObject(i);
                 FoodInfoContract.FIData data = new FoodInfoContract.FIData();
@@ -476,6 +477,37 @@ public class BingoDB {
         return fif_list;
     }
 
+    public String[] getIconPath(int food_id) {
+
+        String[] icons = new String[2];
+
+        db = db_helper.getReadableDatabase();
+        String[] projection = {
+                FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG1,
+                FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG2,
+        };
+        String selection = FoodInfoContract.FoodInfo._ID + " == ?";
+        String[] selectionArgs = { String.valueOf(food_id) };
+
+        Cursor c = db.query(
+                FoodInfoContract.FoodInfo.TABLE_NAME,      // The table to query
+                projection,                                 // The columns to return
+                selection,                                       // The columns for the WHERE clause
+                selectionArgs,                                       // The values for the WHERE clause
+                null,                                       // don't group the rows
+                null,                                       // don't filter by row groups
+                null                                   // The sort order
+        );
+
+        c.moveToFirst();
+
+        icons[0] = Environment.getExternalStorageDirectory() + CONST_STRINGS.ICON_PATH
+                    + c.getString(c.getColumnIndexOrThrow(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG1));
+        icons[1] = Environment.getExternalStorageDirectory() + CONST_STRINGS.ICON_PATH
+                    + c.getString(c.getColumnIndexOrThrow(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG2));
+
+        return icons;
+    }
 
 
     /*
