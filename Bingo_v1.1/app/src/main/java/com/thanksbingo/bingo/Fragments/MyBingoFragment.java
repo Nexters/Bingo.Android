@@ -19,6 +19,8 @@ import com.thanksbingo.bingo.AlertDialog.EditFoodFragment;
 import com.thanksbingo.bingo.AlertDialog.ViewFoodFragment;
 import com.thanksbingo.bingo.Entities.Food;
 import com.thanksbingo.bingo.R;
+import com.thanksbingo.db.BingoDB;
+import com.thanksbingo.db.FoodInFridgeContract;
 
 import java.util.ArrayList;
 
@@ -49,9 +51,6 @@ public class MyBingoFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-
-    // TODO: Rename and change types and number of parameters
-    // TODO: Rename and change types and number of parameters
     public static MyBingoFragment newInstance(String foodname, int count, String boughtdate, String expirydate) {
         MyBingoFragment fragment = new MyBingoFragment();
         Bundle args = new Bundle();
@@ -70,27 +69,43 @@ public class MyBingoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         foodList = new ArrayList<Food>();
-        foodList.add(new Food("사과", 3, "2011-01-31", "2011-01-31"));
-        foodList.add(new Food("베리", 4, "2011-01-31", "2015-02-01"));
-        //can_beer, can_cola
-        foodList.add(new Food("맥주", 7, "2011-01-31", "2015-01-02"));
-        foodList.add(new Food("콜라", 9, "2011-01-31", "2015-02-02"));
-        foodList.add(new Food("당근", 12, "2011-01-31", "2015-03-30"));
-        foodList.add(new Food("치킨", 15, "2011-01-31", "2015-04-31"));
-        foodList.add(new Food("clam", 2, "2011-01-31", "2015-05-01"));
-        //DD
-        Food f = new Food("flag", "flag");
+
+        BingoDB bingoDB = new BingoDB(getActivity().getApplicationContext());
+        ArrayList<FoodInFridgeContract.FIFData> fif_list = bingoDB.getListOfFoodInFridge("0A01");
+        for (int i = 0; i < fif_list.size(); i++) {
+            Food f = new Food();
+            f.fif = fif_list.get(i);
+            f.flagFooter = false;
+            foodList.add(f);
+        }
+        Food f = new Food();
+        f.fif = null;
+
         f.flagFooter = true;
         foodList.add(f);
 
+//        foodList.add(new Food("사과", 3, "2011-01-31","2011-01-31"));
+//        foodList.add(new Food("베리", 4, "2011-01-31", "2015-02-01"));
+//        //can_beer, can_cola
+//        foodList.add(new Food("맥주", 7, "2011-01-31", "2015-01-02"));
+//        foodList.add(new Food("콜라",9, "2011-01-31", "2015-02-02"));
+//        foodList.add(new Food("당근", 12, "2011-01-31", "2015-03-30"));
+//        foodList.add(new Food("치킨", 15, "2011-01-31", "2015-04-31"));
+//        foodList.add(new Food("clam", 2, "2011-01-31", "2015-05-01"));
+        //DD
+//        Food f = new Food("flag", "flag");
+//        f.flagFooter = true;
+//        foodList.add(f);
 
-        if (getArguments() != null) {
-            foodname = getArguments().getString(ARG_PARAM1);
-            count = getArguments().getInt(ARG_PARAM2);
-            boughtdate = getArguments().getString(ARG_PARAM3);
-            expirydate = getArguments().getString(ARG_PARAM4);
-        }
+
+//        if (getArguments() != null) {
+//            foodname = getArguments().getString(ARG_PARAM1);
+//            count = getArguments().getInt(ARG_PARAM2);
+//            boughtdate = getArguments().getString(ARG_PARAM3);
+//            expirydate = getArguments().getString(ARG_PARAM4);
+//        }
 
     }
 
@@ -98,7 +113,9 @@ public class MyBingoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        v = (LinearLayout) inflater.inflate(R.layout.fragment_fridge_row_image, container, false);
+
+        v = (RelativeLayout) inflater.inflate(R.layout.activity_fridge_row2, container, false);
+
 /*
 
         int rowHeight = 3;
@@ -106,15 +123,15 @@ public class MyBingoFragment extends Fragment {
         v.setLayoutParams(lp);
 */
 
-        if (getArguments() != null) {
-            foodname = getArguments().getString(ARG_PARAM1);
-            count = getArguments().getInt(ARG_PARAM2);
-            boughtdate = getArguments().getString(ARG_PARAM3);
-            expirydate = getArguments().getString(ARG_PARAM4);
-        }
+//        if (getArguments() != null) {
+//            foodname = getArguments().getString(ARG_PARAM1);
+//            count = getArguments().getInt(ARG_PARAM2);
+//            boughtdate = getArguments().getString(ARG_PARAM3);
+//            expirydate = getArguments().getString(ARG_PARAM4);
+//        }
 
         //아이콘들을 붙일 레이아웃 동적 생성
-        HorizontalListView listview = (HorizontalListView) v.findViewById(R.id.lv_fridge_img);
+        HorizontalListView listview = (HorizontalListView) v.findViewById(R.id.lv_fridge_img1);
         adapter = new FridgeRowAdapter(getActivity().getApplicationContext(), foodList);
 
         listview.setAdapter(adapter);
@@ -124,11 +141,14 @@ public class MyBingoFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Food f = (Food) parent.getAdapter().getItem(position);
 
-//                Toast.makeText(getActivity(), f.getFoodName(), Toast.LENGTH_SHORT)
-//                        .show();
-
+                if(f.flagFooter == true){
+                    callViewFoodDialog("0A01");
+                } else {
                 // 물품이름, 갯수, 등록일자, 유통기한
-                callEditFoodDialog(f.getFoodName(), f.getCount(), f.getBoughtDate(), f.getExpiryDate());
+
+                callEditFoodDialog(f.fif.food_name, f.fif.amount, f.fif.reg_date.toString(), f.fif.exp_date.toString());
+
+                }
 
             }
         });
@@ -178,11 +198,12 @@ public class MyBingoFragment extends Fragment {
 
 
     // 음식물 등록 Fragment
-    private void callViewFoodDialog() {
+    private void callViewFoodDialog(String loc_code) {
         FragmentManager fm = getActivity().getSupportFragmentManager();
 
-        ViewFoodFragment f = ViewFoodFragment.newInstance("Hello", "Hi");
-        f.show(fm, "");
+
+        ViewFoodFragment f = ViewFoodFragment.newInstance(loc_code, "Hi");
+        f.show(fm,"");
     }
 
 
@@ -194,6 +215,22 @@ public class MyBingoFragment extends Fragment {
         EditFoodFragment f = EditFoodFragment.newInstance(foodname, count, boughtdate, expirydate);
         f.show(fm, "");
     }
+
+//    private void callUpFridgeFragment(int pos, int rowNum, FridgeRow.Style style) {
+//        Fragment existingFrag = getExistingFridgeFragment();
+//        FragmentTransaction t = getChildFragmentManager().beginTransaction();
+//        Toast.makeText(getActivity(), "pos: " + pos + " rowNum: " + rowNum + " style : " + style, Toast.LENGTH_SHORT).show();
+//        if (existingFrag != null) {     //만약 이미 떠있는 fridgefragment가있으면 replace를한다.
+//            t.replace(R.id.main_fragment_container, FridgeFragment.newInstance(pos, rowNum, style), FRIDGE_FRAGMENT_TAG);
+//            t.commit();
+//            return;
+//        }
+//        t.add(R.id.main_fragment_container, FridgeFragment.newInstance(pos, rowNum, style), FRIDGE_FRAGMENT_TAG).commit();
+//    }
+//
+//    private Fragment getExistingFridgeFragment() {
+//        return getChildFragmentManager().findFragmentByTag(FRIDGE_FRAGMENT_TAG);
+//    }
 
 
 }

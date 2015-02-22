@@ -1,6 +1,8 @@
 package com.thanksbingo.bingo.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.thanksbingo.bingo.Entities.Food;
 import com.thanksbingo.bingo.R;
+import com.thanksbingo.db.BingoDB;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,12 +33,17 @@ public class FridgeRowAdapter extends ArrayAdapter<Food> {
     View rootView;
     Food food;
 
+    BingoDB bingoDB;
+
     public FridgeRowAdapter(Context context, ArrayList<Food> foodList) {
         super(context, R.layout.fridge_img_list_item, foodList);
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
         this.foodList = (ArrayList<Food>) foodList;
         Locale.setDefault(Locale.KOREA);
+
+        bingoDB = new BingoDB(context);
+
     }
 
     public int getCount() {
@@ -82,93 +90,67 @@ public class FridgeRowAdapter extends ArrayAdapter<Food> {
             holder = new ViewHolder();
             //check whether the view is the footer view or not
             if (food.flagFooter) {
-                holder.flagFooter = true;
+                holder.flagFooter = food.flagFooter;
                 ///*  rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fridge_img_list_item, null);
                 convertView = inflater.from(parent.getContext()).inflate(R.layout.list_footer, null);
             } else {
+                holder.flagFooter = food.flagFooter;
                 convertView = inflater.from(parent.getContext()).inflate(R.layout.fridge_img_list_item, null);
+                holder.dday = (TextView) convertView.findViewById(R.id.fridge_img_dday);
+                holder.icon = (ImageView) convertView.findViewById(R.id.fridge_img_icon);
+                holder.text = (TextView) convertView.findViewById(R.id.fridge_img_text);
+
+                holder.dday.setText(caldate(food.fif.exp_date.toString()));
+                holder.text.setText(food.fif.food_name);
+                if (food.fif != null) {
+                    if (food.fif.food_id < 0) {
+                        holder.icon.setImageResource(R.drawable.ic_launcher);
+                    }
+                    else {
+                        Bitmap icon_bitmap = BitmapFactory.decodeFile(bingoDB.getIconPath(food.fif.food_id)[0]);
+                        holder.icon.setImageBitmap(icon_bitmap);
+                    }
+                }
             }
 
             //assign holder views all findViewById goes here
-            holder.dday = (TextView) convertView.findViewById(R.id.fridge_img_dday);
-            holder.icon = (ImageView) convertView.findViewById(R.id.fridge_img_icon);
-            holder.text = (TextView) convertView.findViewById(R.id.fridge_img_text);
+
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
-            //check whether the view is the footer view or not
-            if (food.flagFooter) {
-                holder.flagFooter = true;
+            if (holder.flagFooter) {
                 convertView = inflater.from(parent.getContext()).inflate(R.layout.list_footer, null);
                 convertView.setTag(holder);
-            } else {
-                //check if the view which is being reused is a footer view
-                //if it is footer view a list row view should be used.
-                if (holder.flagFooter) {
-                    holder.flagFooter = false;
-                    convertView = inflater.from(parent.getContext()).inflate(R.layout.fridge_img_list_item, null);
-
-                    convertView.setTag(holder);
-                }
             }
+            else {
+                convertView = inflater.from(parent.getContext()).inflate(R.layout.fridge_img_list_item, null);
+                convertView.setTag(holder);
+            }
+
+//            holder = (ViewHolder) convertView.getTag();
+//            //check whether the view is the footer view or not
+//            if (food.flagFooter) {
+////                holder.flagFooter = true;
+//                convertView = inflater.from(parent.getContext()).inflate(R.layout.list_footer, null);
+//                convertView.setTag(holder);
+//            } else {
+//                //check if the view which is being reused is a footer view
+//                //if it is footer view a list row view should be used.
+//                if (holder.flagFooter) {
+//                    holder.flagFooter = false;
+//                    convertView = inflater.from(parent.getContext()).inflate(R.layout.fridge_img_list_item, null);
+//                    convertView.setTag(holder);
+//                }
+//            }
         }
 
-        holder.dday.setText(caldate(food.getExpiryDate()));
-        if (food.getFoodName() == null || food.getFoodName().equals("")) {
-            holder.icon.setImageResource(R.drawable.ic_launcher);
-        } else if (food.getFoodName() == "멸치") {
-            holder.icon.setImageResource(R.drawable.anchovy);
-        } else if (food.getFoodName() == "사과") {
-            holder.icon.setImageResource(R.drawable.apple);
-        } else if (food.getFoodName() == "베리") {
-            holder.icon.setImageResource(R.drawable.berry);
-        } else if (food.getFoodName() == "맥주") {
-            holder.icon.setImageResource(R.drawable.can_beer);
-        } else if (food.getFoodName() == "콜라") {
-            holder.icon.setImageResource(R.drawable.can_cola);
-        } else if (food.getFoodName() == "당근") {
-            holder.icon.setImageResource(R.drawable.carrot);
-        } else if (food.getFoodName() == "치킨") {
-            holder.icon.setImageResource(R.drawable.chicken);
-        } else if (food.getFoodName() == "clam") {
-            holder.icon.setImageResource(R.drawable.clam);
-        } else if (food.getFoodName() == "달걀") {
-            holder.icon.setImageResource(R.drawable.egg);
-        } else if (food.getFoodName() == "생선") {
-            holder.icon.setImageResource(R.drawable.fish);
-        } else if (food.getFoodName() == "leek") {
-            holder.icon.setImageResource(R.drawable.leek);
-        } else if (food.getFoodName() == "고기") {
-            holder.icon.setImageResource(R.drawable.meat);
-        } else if (food.getFoodName() == "버섯") {
-            holder.icon.setImageResource(R.drawable.mushroom);
-        } else if (food.getFoodName() == "양파") {
-            holder.icon.setImageResource(R.drawable.onion);
-        } else if (food.getFoodName() == "감자") {
-            holder.icon.setImageResource(R.drawable.potato);
-        } else if (food.getFoodName() == "새우") {
-            holder.icon.setImageResource(R.drawable.shrimp);
-        } else if (food.getFoodName() == "오징어") {
-            holder.icon.setImageResource(R.drawable.squid);
-        } else if (food.getFoodName() == "토마토") {
-            holder.icon.setImageResource(R.drawable.tomato);
-        } else if (food.getFoodName() == "요거트") {
-            holder.icon.setImageResource(R.drawable.yogurt);
-        } else if (food.getFoodName() == "통1") {
-            holder.icon.setImageResource(R.drawable.locknlock_1);
-        } else if (food.getFoodName() == "통2") {
-            holder.icon.setImageResource(R.drawable.locknlock_2);
-        } else if (food.getFoodName() == "통3") {
-            holder.icon.setImageResource(R.drawable.locknlock_3);
-        } else if (food.getFoodName() == "통4") {
-            holder.icon.setImageResource(R.drawable.locknlock_4);
-        } else if (food.getFoodName() == "통5") {
-            holder.icon.setImageResource(R.drawable.locknlock_5);
-        } else {
-            holder.icon.setImageResource(R.drawable.ic_launcher);
-        }
-        holder.text.setText(food.getFoodName());
+
+
+
+
+
+
 
         //update view here
         return convertView;

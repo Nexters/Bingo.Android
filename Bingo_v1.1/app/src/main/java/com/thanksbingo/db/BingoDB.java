@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -16,13 +17,12 @@ import com.thanksbingo.httpclient.BingoHttpClient;
 import com.thanksbingo.icondownloader.IconDownloader;
 
 import org.apache.http.Header;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -62,6 +62,91 @@ public class BingoDB {
     public BingoDB(Context _context) {
         context = _context;
         db_helper = new BingoDbHelper(_context, DATABASE_NAME, DATABASE_VERSION);
+    }
+
+    /*
+     *      FoodInfo
+     */
+
+    public int getFoodInfoIdOf(String food_name) {
+
+        int food_id = -1;
+
+        db = db_helper.getReadableDatabase();
+
+        String[] projection = {
+                FoodInfoContract.FoodInfo._ID
+        };
+        String selection = FoodInfoContract.FoodInfo.COLUMN_NAME_FOOD_NAME + " == ?";
+        String[] selectionArgs = { new String(food_name) };
+
+        Cursor c = db.query(
+                FoodInfoContract.FoodInfo.TABLE_NAME,      // The table to query
+                projection,                                 // The columns to return
+                selection,                                       // The columns for the WHERE clause
+                selectionArgs,                                       // The values for the WHERE clause
+                null,                                       // don't group the rows
+                null,                                       // don't filter by row groups
+                null                                   // The sort order
+        );
+
+        if (c.getCount() != 0) {
+            c.moveToFirst();
+            food_id = c.getInt(c.getColumnIndex(FoodInfoContract.FoodInfo._ID));
+        }
+
+        return food_id;
+    }
+
+    /*
+     *
+     *
+     *
+     */
+    private void writeDataToFoodInfoTable(FoodInfoContract.FIData data) {
+
+        new SavingFoodInfoDataToDB().execute(data);
+    }
+    private void writeDataToFoodInfoTable(int food_id, String food_name, int rec_exp_date, String icon_img1, String icon_img2, long frequency) {
+
+        FoodInfoContract.FIData data = new FoodInfoContract.FIData();
+        data.food_id = food_id;
+        data.food_name = food_name;
+        data.rec_exp = rec_exp_date;
+        data.icon_img1 = icon_img1;
+        data.icon_img2 = icon_img2;
+        data.frequency = frequency;
+        new SavingFoodInfoDataToDB().execute(data);
+    }
+    private class SavingFoodInfoDataToDB extends AsyncTask<FoodInfoContract.FIData, Void, Void> {
+        protected Void doInBackground(FoodInfoContract.FIData... food_info) {
+
+            db = db_helper.getWritableDatabase();
+
+            int count = food_info.length;
+            for (int i = 0; i < count; i++) {
+
+                ContentValues values = new ContentValues();
+                values.put(FoodInfoContract.FoodInfo._ID, food_info[i].food_id);
+                values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_FOOD_NAME, food_info[i].food_name);
+                values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_REC_EXP, food_info[i].rec_exp);
+                values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG1, food_info[i].icon_img1);
+                values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG2, food_info[i].icon_img2);
+                values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_FREQUENCY, food_info[i].frequency);
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+//                values.put(FoodListContract.FoodEntry.COLUMN_NAME_UPDATE_DATE, dateFormat.format(food_data[i].date));
+
+                db.insert(
+                        FoodInfoContract.FoodInfo.TABLE_NAME,
+                        "null",
+                        values
+                );
+            }
+            return null;
+        }
+
+        protected void onPostExecute(Void v) {
+        }
     }
 
     /*
@@ -199,7 +284,7 @@ public class BingoDB {
 
     private void handleFoodInfoJSONArray(JSONArray jArray) {
         try {
-            IconDownloader icon_downloader = new IconDownloader(null, "/Bingo/Icons/");
+            IconDownloader icon_downloader = new IconDownloader(null, CONST_STRINGS.ICON_PATH);
             for (int i = 0; i < jArray.length(); i++) {
                 JSONObject food_info = jArray.getJSONObject(i);
                 FoodInfoContract.FIData data = new FoodInfoContract.FIData();
@@ -222,10 +307,11 @@ public class BingoDB {
         }
     }
 
+
+
+
     /*
-    *
-    *
-    *
+     *      FoodInFridge
      */
 
     public void writeDataToFoodInFridgeTable(FoodInFridgeContract.FIFData data) {
@@ -243,7 +329,8 @@ public class BingoDB {
                 FoodInFridgeContract.FIFData fif = fif_arr[i];
 
                 ContentValues values = new ContentValues();
-                values.put(FoodInFridgeContract.FoodInFridge._ID, fif.food_id);
+                values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_ID, fif.food_id);
+                values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_NAME, fif.food_name);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
                 values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_REG_DATE, dateFormat.format(fif.reg_date));
                 values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_EXP_DATE, dateFormat.format(fif.exp_date));
@@ -275,6 +362,7 @@ public class BingoDB {
 
                 ContentValues values = new ContentValues();
                 values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_ID, fif.food_id);
+                values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_NAME, fif.food_name);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
                 values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_REG_DATE, dateFormat.format(fif.reg_date));
                 values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_EXP_DATE, dateFormat.format(fif.exp_date));
@@ -317,9 +405,9 @@ public class BingoDB {
     }
 
     public void deleteFoodInFridgeDataOnDB(ArrayList<Integer> _ids) {
-
+        new DeleteFoodInFridgeDataOnDB2().execute(_ids);
     }
-    private class DeleteFoodFridgeDataOnDB2 extends AsyncTask<ArrayList<Integer>, Void, Void> {
+    private class DeleteFoodInFridgeDataOnDB2 extends AsyncTask<ArrayList<Integer>, Void, Void> {
         @Override
         protected Void doInBackground(ArrayList<Integer>... params) {
 
@@ -340,59 +428,186 @@ public class BingoDB {
     }
 
 
+
+
     /*
-    *
-    *
-    *
+     *
+     *
      */
-    private void writeDataToFoodInfoTable(FoodInfoContract.FIData data) {
 
-        new SavingFoodInfoDataToDB().execute(data);
-    }
-    private void writeDataToFoodInfoTable(int food_id, String food_name, int rec_exp_date, String icon_img1, String icon_img2, long frequency) {
+    public ArrayList<FoodInFridgeContract.FIFData> getListOfFoodInFridge(String loc_code) {
 
-        FoodInfoContract.FIData data = new FoodInfoContract.FIData();
-        data.food_id = food_id;
-        data.food_name = food_name;
-        data.rec_exp = rec_exp_date;
-        data.icon_img1 = icon_img1;
-        data.icon_img2 = icon_img2;
-        data.frequency = frequency;
-        new SavingFoodInfoDataToDB().execute(data);
-    }
-    private class SavingFoodInfoDataToDB extends AsyncTask<FoodInfoContract.FIData, Void, Void> {
-        protected Void doInBackground(FoodInfoContract.FIData... food_info) {
+        ArrayList<FoodInFridgeContract.FIFData> fif_list = new ArrayList<FoodInFridgeContract.FIFData>();
 
-            db = db_helper.getWritableDatabase();
+        db = db_helper.getReadableDatabase();
 
-            int count = food_info.length;
-            for (int i = 0; i < count; i++) {
+//        public static abstract class FoodInFridge implements BaseColumns {
+//
+//            public static final String TABLE_NAME = "FoodInFridge";
+//            public static final String COLUMN_NAME_FOOD_ID = "food_id";
+//            public static final String COLUMN_NAME_FOOD_NAME = "food_name";
+//            public static final String COLUMN_NAME_REG_DATE = "reg_date";
+//            public static final String COLUMN_NAME_EXP_DATE = "exp_date";
+//            public static final String COLUMN_NAME_AMOUNT = "amount";
+//            public static final String COLUMN_NAME_POSITION = "position";
+//            public static final String COLUMN_NAME_HISTORY = "history";
+//        }
 
-                ContentValues values = new ContentValues();
-                values.put(FoodInfoContract.FoodInfo._ID, food_info[i].food_id);
-                values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_FOOD_NAME, food_info[i].food_name);
-                values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_REC_EXP, food_info[i].rec_exp);
-                values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG1, food_info[i].icon_img1);
-                values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG2, food_info[i].icon_img2);
-                values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_FREQUENCY, food_info[i].frequency);
-//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
-//                values.put(FoodListContract.FoodEntry.COLUMN_NAME_UPDATE_DATE, dateFormat.format(food_data[i].date));
+        String[] projection = {
+                FoodInFridgeContract.FoodInFridge._ID,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_ID,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_NAME,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_REG_DATE,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_EXP_DATE,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_AMOUNT,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_POSITION,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_HISTORY
+        };
 
-                db.insert(
-                        FoodInfoContract.FoodInfo.TABLE_NAME,
-                        "null",
-                        values
-                );
+        String sortOrder = FoodInFridgeContract.FoodInFridge.COLUMN_NAME_EXP_DATE + " DESC";
+        String selection = FoodInFridgeContract.FoodInFridge.COLUMN_NAME_POSITION + " LIKE \'" + loc_code + "%\'";
+//        String loc = loc_code.substring(0, 4);
+        //String[] selectionArgs = { loc_code };
+
+        Cursor c = db.query(
+                FoodInFridgeContract.FoodInFridge.TABLE_NAME,      // The table to query
+                projection,                                 // The columns to return
+                selection,                                       // The columns for the WHERE clause
+                null,                                       // The values for the WHERE clause
+                null,                                       // don't group the rows
+                null,                                       // don't filter by row groups
+                sortOrder                                   // The sort order
+        );
+
+        if (c.getCount() != 0) {
+
+            c.moveToFirst();
+            while (!c.isAfterLast()) {
+                FoodInFridgeContract.FIFData fif = new FoodInFridgeContract.FIFData();
+                fif._id = c.getInt(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge._ID));
+                fif.food_id = c.getInt(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_ID));
+                fif.food_name = c.getString(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_NAME));
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+                try {
+                    fif.reg_date = dateFormat.parse(c.getString(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_REG_DATE)));
+                    fif.exp_date = dateFormat.parse(c.getString(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_EXP_DATE)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                fif.amount = c.getInt(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_AMOUNT));
+                fif.history = c.getInt(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_HISTORY));
+                fif.position = c.getString(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_POSITION));
+                fif_list.add(fif);
+
+                c.moveToNext();
             }
-            return null;
         }
 
-        protected void onPostExecute(Void v) {
-        }
+        return fif_list;
     }
+
+    public String[] getIconPath(int food_id) {
+
+        String[] icons = new String[2];
+
+        if (food_id < 0) {
+            icons[0] = null;
+            icons[1] = null;
+        }
+        else {
+
+            db = db_helper.getReadableDatabase();
+            String[] projection = {
+                    FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG1,
+                    FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG2,
+            };
+            String selection = FoodInfoContract.FoodInfo._ID + " == ?";
+            String[] selectionArgs = {String.valueOf(food_id)};
+
+            Cursor c = db.query(
+                    FoodInfoContract.FoodInfo.TABLE_NAME,      // The table to query
+                    projection,                                 // The columns to return
+                    selection,                                       // The columns for the WHERE clause
+                    selectionArgs,                                       // The values for the WHERE clause
+                    null,                                       // don't group the rows
+                    null,                                       // don't filter by row groups
+                    null                                   // The sort order
+            );
+
+            c.moveToFirst();
+
+            icons[0] = Environment.getExternalStorageDirectory() + CONST_STRINGS.ICON_PATH
+                    + c.getString(c.getColumnIndexOrThrow(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG1));
+            icons[1] = Environment.getExternalStorageDirectory() + CONST_STRINGS.ICON_PATH
+                    + c.getString(c.getColumnIndexOrThrow(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG2));
+        }
+
+        return icons;
+    }
+
 
     /*
-     * public ArrayList<OtherClasses.SomeFood> getFoodList():
+     * public ArrayList<FoodInfoContract.FIData> getAllFoodInfo();
+     *
+     */
+
+    public ArrayList<FoodInfoContract.FIData> getAllFoodInfo() {
+
+        ArrayList<FoodInfoContract.FIData> all_food_info = new ArrayList<FoodInfoContract.FIData>();
+
+        db = db_helper.getReadableDatabase();
+
+//        public static abstract class FoodInfo implements BaseColumns {
+//
+//            public static final String TABLE_NAME = "FoodInfo";
+//            public static final String COLUMN_NAME_FOOD_NAME = "food_name";
+//            public static final String COLUMN_NAME_REC_EXP = "rec_exp";
+//            public static final String COLUMN_NAME_ICON_IMG1 = "icon_img1";
+//            public static final String COLUMN_NAME_ICON_IMG2 = "icon_img2";
+//            public static final String COLUMN_NAME_FREQUENCY = "frequency";
+//        }
+
+        // for FoodInfo Table
+        String[] projection = {
+                FoodInfoContract.FoodInfo._ID,
+                FoodInfoContract.FoodInfo.COLUMN_NAME_FOOD_NAME,
+                FoodInfoContract.FoodInfo.COLUMN_NAME_REC_EXP,
+                FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG1,
+                FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG2,
+                FoodInfoContract.FoodInfo.COLUMN_NAME_FREQUENCY
+        };
+
+        String sortOrder = FoodInfoContract.FoodInfo.COLUMN_NAME_FREQUENCY + " DESC";
+
+        Cursor c = db.query(
+                FoodInfoContract.FoodInfo.TABLE_NAME,      // The table to query
+                projection,                                 // The columns to return
+                null,                                       // The columns for the WHERE clause
+                null,                                       // The values for the WHERE clause
+                null,                                       // don't group the rows
+                null,                                       // don't filter by row groups
+                sortOrder                                   // The sort order
+        );
+
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            FoodInfoContract.FIData food_info = new FoodInfoContract.FIData();
+            food_info.food_id = c.getInt(c.getColumnIndexOrThrow(FoodInfoContract.FoodInfo._ID));
+            food_info.food_name = c.getString(c.getColumnIndexOrThrow(FoodInfoContract.FoodInfo.COLUMN_NAME_FOOD_NAME));
+            food_info.rec_exp = c.getInt(c.getColumnIndexOrThrow(FoodInfoContract.FoodInfo.COLUMN_NAME_REC_EXP));
+            food_info.icon_img1 = c.getString(c.getColumnIndexOrThrow(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG1));
+            food_info.icon_img2 = c.getString(c.getColumnIndexOrThrow(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG2));
+            food_info.frequency = c.getLong(c.getColumnIndexOrThrow(FoodInfoContract.FoodInfo.COLUMN_NAME_FREQUENCY));
+            all_food_info.add(food_info);
+            c.moveToNext();
+        }
+
+        return all_food_info;
+    }
+
+
+    /*
+     *   * public ArrayList<OtherClasses.SomeFood> getFoodList():
      *
      *
      * public void getFoodList(OnGetFoodListHandler handler):

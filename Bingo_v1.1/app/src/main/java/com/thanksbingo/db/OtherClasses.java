@@ -1,5 +1,7 @@
 package com.thanksbingo.db;
 
+import java.util.Date;
+
 /**
  * Created by Hagyut on 2015. 1. 29..
  */
