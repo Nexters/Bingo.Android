@@ -93,84 +93,130 @@ public class FridgeRowAdapter extends ArrayAdapter<Food> {
         return position;
     }
 
+    //viewholder
+    class ViewHolder {
+        public TextView dday;
+        public ImageView icon;
+        public TextView text;
+        boolean flagFooter;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fridge_img_list_item, null);
+        ViewHolder holder = null;
 
         //food객체에 현재 position값에 있는 객체를 넣는다
         food = (Food) getItem(position);
 
-        TextView dday = (TextView) rootView.findViewById(R.id.fridge_img_dday);
-        //맨밑에 caldate 함수 사용해서 dday계산
-        dday.setText(caldate(food.getExpiryDate()));
+        //캐시된 뷰가 없을 경우 새로 생성하고 뷰홀더를 생성한다.
+        //*****주의사항*****//
+        //http://stackoverflow.com/questions/15614279/horizontal-list-view-add-footer-view
+        //Be cautious when updating the list. You should remove the last dummy item and add the additional list and then add the dummy item if required
+        /*
+        Override getCount() of listview adapter to return data.size()+1 elements;
+        In getView() insert something like this:
 
-        ImageView icon = (ImageView) rootView.findViewById(R.id.fridge_img_icon);
-
-        //각 음식물의 id값에 맞는 이미지를 set해줌
-        //없는경우 ic_launcher로 보여준다
-        //현재는 id값이 없기 때문에 이름값이랑 비교함.
-        if (food.getFoodName() == null || food.getFoodName().equals("")) {
-            icon.setImageResource(R.drawable.ic_launcher);
-        } else if (food.getFoodName() == "멸치") {
-            icon.setImageResource(R.drawable.anchovy);
-        } else if (food.getFoodName() == "사과") {
-            icon.setImageResource(R.drawable.apple);
-        } else if (food.getFoodName() == "베리") {
-            icon.setImageResource(R.drawable.berry);
-        } else if (food.getFoodName() == "맥주") {
-            icon.setImageResource(R.drawable.can_beer);
-        } else if (food.getFoodName() == "콜라") {
-            icon.setImageResource(R.drawable.can_cola);
-        } else if (food.getFoodName() == "당근") {
-            icon.setImageResource(R.drawable.carrot);
-        } else if (food.getFoodName() == "치킨") {
-            icon.setImageResource(R.drawable.chicken);
-        } else if (food.getFoodName() == "clam") {
-            icon.setImageResource(R.drawable.clam);
-        } else if (food.getFoodName() == "달걀") {
-            icon.setImageResource(R.drawable.egg);
-        } else if (food.getFoodName() == "생선") {
-            icon.setImageResource(R.drawable.fish);
-        } else if (food.getFoodName() == "leek") {
-            icon.setImageResource(R.drawable.leek);
-        } else if (food.getFoodName() == "고기") {
-            icon.setImageResource(R.drawable.meat);
-        } else if (food.getFoodName() == "버섯") {
-            icon.setImageResource(R.drawable.mushroom);
-        } else if (food.getFoodName() == "양파") {
-            icon.setImageResource(R.drawable.onion);
-        } else if (food.getFoodName() == "감자") {
-            icon.setImageResource(R.drawable.potato);
-        } else if (food.getFoodName() == "새우") {
-            icon.setImageResource(R.drawable.shrimp);
-        } else if (food.getFoodName() == "오징어") {
-            icon.setImageResource(R.drawable.squid);
-        } else if (food.getFoodName() == "토마토") {
-            icon.setImageResource(R.drawable.tomato);
-        } else if (food.getFoodName() == "요거트") {
-            icon.setImageResource(R.drawable.yogurt);
-        } else if (food.getFoodName() == "통1") {
-            icon.setImageResource(R.drawable.locknlock_1);
-        } else if (food.getFoodName() == "통2") {
-            icon.setImageResource(R.drawable.locknlock_2);
-        } else if (food.getFoodName() == "통3") {
-            icon.setImageResource(R.drawable.locknlock_3);
-        } else if (food.getFoodName() == "통4") {
-            icon.setImageResource(R.drawable.locknlock_4);
-        } else if (food.getFoodName() == "통5") {
-            icon.setImageResource(R.drawable.locknlock_5);
-        } else {
-            icon.setImageResource(R.drawable.ic_launcher);
+        if (position == data.size()){ return getFooterView();
         }
 
-        //해당 음식물의 이름을 가져온다.
-        TextView text = (TextView) rootView.findViewById(R.id.fridge_img_text);
-        text.setText(food.getFoodName());
+        In getFooterView() inflate proper layout with button.
+         */
+        if (convertView == null) {
+            holder = new ViewHolder();
+            //check whether the view is the footer view or not
+            if (food.flagFooter) {
+                holder.flagFooter = true;
+                ///*  rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fridge_img_list_item, null);
+                convertView = inflater.from(parent.getContext()).inflate(R.layout.list_footer, null);
+            } else {
+                convertView = inflater.from(parent.getContext()).inflate(R.layout.fridge_img_list_item, null);
+            }
 
-        return rootView;
+            //assign holder views all findViewById goes here
+            holder.dday = (TextView) convertView.findViewById(R.id.fridge_img_dday);
+            holder.icon = (ImageView) convertView.findViewById(R.id.fridge_img_icon);
+            holder.text = (TextView) convertView.findViewById(R.id.fridge_img_text);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+            //check whether the view is the footer view or not
+            if (food.flagFooter) {
+                holder.flagFooter = true;
+                convertView = inflater.from(parent.getContext()).inflate(R.layout.list_footer, null);
+                convertView.setTag(holder);
+            } else {
+                //check if the view which is being reused is a footer view
+                //if it is footer view a list row view should be used.
+                if (holder.flagFooter) {
+                    holder.flagFooter = false;
+                    convertView = inflater.from(parent.getContext()).inflate(R.layout.fridge_img_list_item, null);
+
+                    convertView.setTag(holder);
+                }
+            }
+        }
+
+        holder.dday.setText(caldate(food.getExpiryDate()));
+        if (food.getFoodName() == null || food.getFoodName().equals("")) {
+            holder.icon.setImageResource(R.drawable.ic_launcher);
+        } else if (food.getFoodName() == "멸치") {
+            holder.icon.setImageResource(R.drawable.anchovy);
+        } else if (food.getFoodName() == "사과") {
+            holder.icon.setImageResource(R.drawable.apple);
+        } else if (food.getFoodName() == "베리") {
+            holder.icon.setImageResource(R.drawable.berry);
+        } else if (food.getFoodName() == "맥주") {
+            holder.icon.setImageResource(R.drawable.can_beer);
+        } else if (food.getFoodName() == "콜라") {
+            holder.icon.setImageResource(R.drawable.can_cola);
+        } else if (food.getFoodName() == "당근") {
+            holder.icon.setImageResource(R.drawable.carrot);
+        } else if (food.getFoodName() == "치킨") {
+            holder.icon.setImageResource(R.drawable.chicken);
+        } else if (food.getFoodName() == "clam") {
+            holder.icon.setImageResource(R.drawable.clam);
+        } else if (food.getFoodName() == "달걀") {
+            holder.icon.setImageResource(R.drawable.egg);
+        } else if (food.getFoodName() == "생선") {
+            holder.icon.setImageResource(R.drawable.fish);
+        } else if (food.getFoodName() == "leek") {
+            holder.icon.setImageResource(R.drawable.leek);
+        } else if (food.getFoodName() == "고기") {
+            holder.icon.setImageResource(R.drawable.meat);
+        } else if (food.getFoodName() == "버섯") {
+            holder.icon.setImageResource(R.drawable.mushroom);
+        } else if (food.getFoodName() == "양파") {
+            holder.icon.setImageResource(R.drawable.onion);
+        } else if (food.getFoodName() == "감자") {
+            holder.icon.setImageResource(R.drawable.potato);
+        } else if (food.getFoodName() == "새우") {
+            holder.icon.setImageResource(R.drawable.shrimp);
+        } else if (food.getFoodName() == "오징어") {
+            holder.icon.setImageResource(R.drawable.squid);
+        } else if (food.getFoodName() == "토마토") {
+            holder.icon.setImageResource(R.drawable.tomato);
+        } else if (food.getFoodName() == "요거트") {
+            holder.icon.setImageResource(R.drawable.yogurt);
+        } else if (food.getFoodName() == "통1") {
+            holder.icon.setImageResource(R.drawable.locknlock_1);
+        } else if (food.getFoodName() == "통2") {
+            holder.icon.setImageResource(R.drawable.locknlock_2);
+        } else if (food.getFoodName() == "통3") {
+            holder.icon.setImageResource(R.drawable.locknlock_3);
+        } else if (food.getFoodName() == "통4") {
+            holder.icon.setImageResource(R.drawable.locknlock_4);
+        } else if (food.getFoodName() == "통5") {
+            holder.icon.setImageResource(R.drawable.locknlock_5);
+        } else {
+            holder.icon.setImageResource(R.drawable.ic_launcher);
+        }
+        holder.text.setText(food.getFoodName());
+
+        //update view here
+        return convertView;
+
     }
-
     @Override
     public Filter getFilter() {
         return null;

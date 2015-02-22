@@ -1,6 +1,7 @@
 package com.thanksbingo.bingo.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,7 +16,8 @@ import com.thanksbingo.db.OtherClasses;
 import java.util.ArrayList;
 
 public class IntroActivity extends ActionBarActivity {
-
+    private Intent i;             //계정 유무를 통해 어느 페이지로 이동할지 정할 intent
+    private Thread background;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,5 +39,4 @@ public class IntroActivity extends ActionBarActivity {
             Log.i(CONST_STRINGS.BINGO_LOG, "" + food_list.get(i).food_name);
         }
     }
-
 }

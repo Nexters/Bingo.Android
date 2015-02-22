@@ -49,6 +49,9 @@
     <style name="dialog_fade_in_animation" >
         <item name="android:windowEnterAnimation">@anim/dialog_fade_in</item>
     </style>
+    <style name="dialog_fade_out_animation" >
+        <item name="android:windowExitAnimation">@anim/dialog_fade_out</item>
+    </style>
     </resources>
 
 

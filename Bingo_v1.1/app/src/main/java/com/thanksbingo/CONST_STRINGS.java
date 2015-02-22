@@ -8,4 +8,5 @@ public class CONST_STRINGS {
     public static final String BINGO_LOG = "BINGO LOG";
     public static final String SP_FILE_KEY = "NEXTERS_BINGO";
     public static final String SP_FOOD_INFO_LAST_HISTORY = "FOOD INFO LAST HISTORY";
+    public static final String BINGO_TYPE_COUNT="BINGO_TYPE_COUNT";
 }

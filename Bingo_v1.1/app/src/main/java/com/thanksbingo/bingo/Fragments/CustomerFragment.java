@@ -84,7 +84,7 @@ public class CustomerFragment extends Fragment {
         editinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callEditFoodDialog();
+               // callEditFoodDialog();
             }
         });
          return v;
@@ -102,11 +102,12 @@ public class CustomerFragment extends Fragment {
 
 
     // 음식물 수정 및 보기 Fragment
-    private void callEditFoodDialog() {
+    private void callEditFoodDialog(String foodname, int count, String boughtdate, String expirydate ) {
+
         FragmentManager fm = getActivity().getSupportFragmentManager();
 
-        // AlertDialog에 값을 넘겨주는거에요        //
-        EditFoodFragment f = EditFoodFragment.newInstance("Hello", "Hi");
+        // AlertDialog에 값을 넘겨주는거에요
+        EditFoodFragment f = EditFoodFragment.newInstance(foodname, count, boughtdate, expirydate);
         f.show(fm,"");
     }
 

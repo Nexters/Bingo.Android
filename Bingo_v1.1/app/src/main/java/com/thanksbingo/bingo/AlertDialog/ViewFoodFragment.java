@@ -137,9 +137,8 @@ public class ViewFoodFragment extends DialogFragment {
     }
 
     public void onResume() {
-
-        //없어질때 fade out 하는 애니메이션
-        getDialog().getWindow().setWindowAnimations(R.style.dialog_animation);
+        //없어질때 fade out 하는 애니메이션이죠
+        getDialog().getWindow().setWindowAnimations(R.style.dialog_fade_out_animation);
         super.onResume();
 
     }
