@@ -9,4 +9,11 @@ public class CONST_STRINGS {
     public static final String SP_FILE_KEY = "NEXTERS_BINGO";
     public static final String SP_FOOD_INFO_LAST_HISTORY = "FOOD INFO LAST HISTORY";
     public static final String BINGO_TYPE_COUNT="BINGO_TYPE_COUNT";
+
+    public static final String FR_TAB0 = "0A";
+    public static final String FR_TAB1 = "0B";
+    public static final String FR_TAB2 = "0C";
+    public static final String FR_TAB3 = "0D";
+
+    public static final String ICON_PATH = "/Bingo/Icons/";
 }
