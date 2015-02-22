@@ -126,9 +126,10 @@ public class ViewFoodFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         dismissDialog();
                     }
-                }).setNegativeButton("아뇨", new DialogInterface.OnClickListener() {
+                }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                dismissDialog();
                 return;
             }
         });

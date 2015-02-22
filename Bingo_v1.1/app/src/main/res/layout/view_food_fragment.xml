@@ -223,11 +223,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="55"></LinearLayout>
             <Button
-                android:id="@+id/view_food_fragment_btn_confirm"
+                android:id="@+id/view_food_fragment_btn_cancel"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="235"
-                android:text="등록하기"
+                android:text="취소하기"
                 android:textColor="#4ac6be"
                 android:textSize="12dp"
                 android:gravity="center_horizontal|center_vertical"
@@ -242,11 +242,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="30"></LinearLayout>-->
             <Button
-                android:id="@+id/view_food_fragment_btn_cancel"
+                android:id="@+id/view_food_fragment_btn_confirm"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="235"
-                android:text="취소하기"
+                android:text="등록하기"
                 android:textColor="#4ac6be"
                 android:textSize="12dp"
                 android:gravity="center_horizontal|center_vertical"

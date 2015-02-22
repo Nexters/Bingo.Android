@@ -71,13 +71,13 @@ public class MyBingoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         foodList = new ArrayList<Food>();
         foodList.add(new Food("사과", 3, "2011-01-31","2011-01-31"));
-        foodList.add(new Food("베리", 4, "2011-01-31", "2015-02-01"));
-        //can_beer, can_cola
-        foodList.add(new Food("맥주", 7, "2011-01-31", "2015-01-02"));
-        foodList.add(new Food("콜라",9, "2011-01-31", "2015-02-02"));
-        foodList.add(new Food("당근", 12, "2011-01-31", "2015-03-30"));
-        foodList.add(new Food("치킨", 15, "2011-01-31", "2015-04-31"));
-        foodList.add(new Food("clam", 2, "2011-01-31", "2015-05-01"));
+//        foodList.add(new Food("베리", 4, "2011-01-31", "2015-02-01"));
+//        //can_beer, can_cola
+//        foodList.add(new Food("맥주", 7, "2011-01-31", "2015-01-02"));
+//        foodList.add(new Food("콜라",9, "2011-01-31", "2015-02-02"));
+//        foodList.add(new Food("당근", 12, "2011-01-31", "2015-03-30"));
+//        foodList.add(new Food("치킨", 15, "2011-01-31", "2015-04-31"));
+//        foodList.add(new Food("clam", 2, "2011-01-31", "2015-05-01"));
         //DD
         Food f = new Food("flag", "flag");
         f.flagFooter = true;
@@ -97,7 +97,7 @@ public class MyBingoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        v = (RelativeLayout) inflater.inflate(R.layout.activity_fridge_row1, container, false);
+        v = (RelativeLayout) inflater.inflate(R.layout.activity_fridge_row2, container, false);
 /*
 
         int rowHeight = 3;
@@ -115,7 +115,7 @@ public class MyBingoFragment extends Fragment {
 
 
         //아이콘들을 붙일 레이아웃 동적 생성
-        HorizontalListView listview = (HorizontalListView) v.findViewById(R.id.lv_fridge_img);
+        HorizontalListView listview = (HorizontalListView) v.findViewById(R.id.lv_fridge_img1);
         adapter = new FridgeRowAdapter(getActivity().getApplicationContext(), foodList);
 
         listview.setAdapter(adapter);
@@ -125,13 +125,13 @@ public class MyBingoFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Food f = (Food) parent.getAdapter().getItem(position);
 
-//                Toast.makeText(getActivity(), f.getFoodName(), Toast.LENGTH_SHORT)
-//                        .show();
-
+                if(f.getFoodName().equals("flag")){
+                    callViewFoodDialog();
+                }else{
                 // 물품이름, 갯수, 등록일자, 유통기한
                 callEditFoodDialog(f.getFoodName(), f.getCount(), f.getBoughtDate(), f.getExpiryDate());
 
-
+                }
 
             }
         });
@@ -198,6 +198,22 @@ public class MyBingoFragment extends Fragment {
         EditFoodFragment f = EditFoodFragment.newInstance(foodname, count, boughtdate, expirydate);
         f.show(fm,"");
     }
+
+//    private void callUpFridgeFragment(int pos, int rowNum, FridgeRow.Style style) {
+//        Fragment existingFrag = getExistingFridgeFragment();
+//        FragmentTransaction t = getChildFragmentManager().beginTransaction();
+//        Toast.makeText(getActivity(), "pos: " + pos + " rowNum: " + rowNum + " style : " + style, Toast.LENGTH_SHORT).show();
+//        if (existingFrag != null) {     //만약 이미 떠있는 fridgefragment가있으면 replace를한다.
+//            t.replace(R.id.main_fragment_container, FridgeFragment.newInstance(pos, rowNum, style), FRIDGE_FRAGMENT_TAG);
+//            t.commit();
+//            return;
+//        }
+//        t.add(R.id.main_fragment_container, FridgeFragment.newInstance(pos, rowNum, style), FRIDGE_FRAGMENT_TAG).commit();
+//    }
+//
+//    private Fragment getExistingFridgeFragment() {
+//        return getChildFragmentManager().findFragmentByTag(FRIDGE_FRAGMENT_TAG);
+//    }
 
 
 }

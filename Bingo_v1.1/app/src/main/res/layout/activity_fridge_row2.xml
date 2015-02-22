@@ -3,6 +3,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1280">
+        <!--
+        <include layout="@layout/actionbar"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="110"/>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="85"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/main_tab01"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="냉장실 문"
+                android:background="@drawable/tab_bground_selector"
+                android:textColor="@drawable/tab_text_selector"
+                android:textSize="15dp"
+                />
+            <Button
+                android:id="@+id/main_tab02"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="냉장실 안"
+                android:background="@drawable/tab_bground_selector"
+                android:textColor="@drawable/tab_text_selector"
+                android:textSize="15dp"/>
+            <Button
+                android:id="@+id/main_tab03"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="냉동실 문"
+                android:background="@drawable/tab_bground_selector"
+                android:textColor="@drawable/tab_text_selector"
+                android:textSize="15dp"/>
+            <Button
+                android:id="@+id/main_tab04"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="냉동실 안"
+                android:background="@drawable/tab_bground_selector"
+                android:textColor="@drawable/tab_text_selector"
+                android:textSize="15dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/main_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1000">
 
     <com.devsmart.android.ui.HorizontalListView
         android:id="@+id/lv_fridge_img1"
@@ -10,20 +71,7 @@
         android:layout_height="145dp"
         android:layout_margin="20dp"
         android:background="@drawable/box_modified"/>
-
-    <com.devsmart.android.ui.HorizontalListView
-        android:id="@+id/lv_fridge_img2"
-        android:layout_width="fill_parent"
-        android:layout_height="145dp"
-        android:layout_margin="20dp"
-        android:background="@drawable/box_modified"/>
-
-    <com.devsmart.android.ui.HorizontalListView
-        android:id="@+id/lv_fridge_img3"
-        android:layout_width="fill_parent"
-        android:layout_height="145dp"
-        android:layout_margin="20dp"
-        android:background="@drawable/box_modified"/>
-
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
