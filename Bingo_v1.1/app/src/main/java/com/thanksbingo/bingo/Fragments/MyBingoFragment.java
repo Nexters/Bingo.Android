@@ -74,9 +74,9 @@ public class MyBingoFragment extends Fragment {
         tab04.setOnClickListener(mTabClickListener);
 
         //처음 실행될때 냉장실 안이 선택되어 있는 상태로
-        Fragment tabFirstIn = new TabFirstIn();
+        Fragment tabFirstDoor = new TabFirstDoor();
         FragmentTransaction transaction2 = getChildFragmentManager().beginTransaction();
-        transaction2.replace(R.id.tab_container, tabFirstIn).commit();
+        transaction2.replace(R.id.tab_container, tabFirstDoor).commit();
 
         return v;
     }

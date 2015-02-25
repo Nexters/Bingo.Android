@@ -16,13 +16,12 @@
         android:background="@drawable/box_radius_red"
         android:textColor="#ffffff" />
 
-    <ImageView
-        android:id="@+id/fridge_img_icon"
+    <com.thanksbingo.bingo.Entities.FoodImageView
+        android:id="@+id/fridge_img_iconn"
         android:layout_width="75dp"
         android:layout_height="60dp"
         android:src="@drawable/ic_launcher"
-        android:layout_gravity="center"
-        android:text="fridge_img_view" />
+        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/fridge_img_text"

@@ -68,7 +68,7 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
 
         LinearLayout wrapLinear = (LinearLayout) rootView.findViewById(R.id.wrap_linear);
 
-        String loc_code = whatFridge + getItem(position);
+        final String loc_code = whatFridge + getItem(position);
         BingoDB bingoDB = new BingoDB(context);
         ArrayList<FoodInFridgeContract.FIFData> fif_list = bingoDB.getListOfFoodInFridge(loc_code);
 
@@ -77,24 +77,21 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
         for (int i = 0; i < fif_list.size() + 1; i++) {
 
             Food f = null;
-            View mLayout = null;
+            View mLayout = mInflater.inflate(R.layout.fridge_img_list_item, null);
+            TextView dday = (TextView) mLayout.findViewById(R.id.fridge_img_dday);
+            TextView fName = (TextView) mLayout.findViewById(R.id.fridge_img_text);
+            FoodImageView icon = (FoodImageView)mLayout.findViewById(R.id.fridge_img_iconn);
 
             if (i != fif_list.size()) {
                 f = new Food();
                 f.fif = fif_list.get(i);
                 f.flagFooter = false;
 
-                mLayout = mInflater.inflate(R.layout.fridge_img_list_item, null);
-
-                TextView dday = (TextView) mLayout.findViewById(R.id.fridge_img_dday);
                 String date = f.fif.exp_date.toString();
                 dday.setText(caldate(date));
 
-                TextView fName = (TextView) mLayout.findViewById(R.id.fridge_img_text);
                 fName.setText(f.fif.food_name);
                 wrapLinear.addView(mLayout);
-
-                FoodImageView icon = (FoodImageView)mLayout.findViewById(R.id.fridge_img_icon);
 
                 if (!f.flagFooter) {
                     if (f.fif.food_id < 0) {
@@ -114,7 +111,6 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
                         });
                     }
                 }
-
             }
             else {
                 f = new Food();
@@ -122,7 +118,17 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
                 f.flagFooter = true;
                 //food_list.add(f);
 
-                mLayout = mInflater.inflate(R.layout.list_footer, null);
+                dday.setVisibility(View.INVISIBLE);
+                fName.setVisibility(View.INVISIBLE);
+
+                icon.setImageResource(R.drawable.btn_add);
+                icon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i(CONST_STRINGS.BINGO_LOG, "add btn " + loc_code);
+                    }
+                });
+                //mLayout = mInflater.inflate(R.layout.list_footer, null);
             }
 
             wrapLinear.addView(mLayout);

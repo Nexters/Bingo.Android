@@ -1,6 +1,7 @@
 package com.thanksbingo.bingo.Entities;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
@@ -10,6 +11,10 @@ public class FoodImageView extends ImageView {
 
     public FoodImageView(Context context) {
         super(context);
+    }
+
+    public FoodImageView(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
     public void setFivId(int _val) {
