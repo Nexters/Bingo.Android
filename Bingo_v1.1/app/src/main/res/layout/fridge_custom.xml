@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1280">
     <!-- 여백 -->
@@ -41,7 +40,6 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="630">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -49,14 +47,13 @@
                     android:text="냉장고 형태"
                     android:textColor="#4e4e4e"
                     android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true" />
-
+                    android:layout_centerVertical="true"/>
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:id="@+id/spinner_fridge"
+                    android:id = "@+id/spinner_fridge"
                     android:background="@drawable/box_radius_white"></Spinner>
             </RelativeLayout>
             <!-- 여백 -->
@@ -100,19 +97,16 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="400">
-
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/fridge" />
-
+                    android:src="@drawable/fridge"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:weightSum="340">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0px"
@@ -123,32 +117,29 @@
                             android:layout_width="0px"
                             android:layout_height="match_parent"
                             android:layout_weight="1">
-
                             <TextView
                                 android:id="@+id/dongdoor_one"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:text=""
-                                android:textSize="15dp" />
+                                android:textSize="15dp"/>
                         </RelativeLayout>
                         <!-- 냉동실 안 -->
                         <RelativeLayout
                             android:layout_width="0px"
                             android:layout_height="match_parent"
                             android:layout_weight="1">
-
                             <TextView
                                 android:id="@+id/dong_one"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:text=""
-                                android:textSize="15dp" />
+                                android:textSize="15dp"/>
 
                         </RelativeLayout>
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0px"
@@ -159,14 +150,13 @@
                             android:layout_width="0px"
                             android:layout_height="match_parent"
                             android:layout_weight="1">
-
                             <TextView
                                 android:id="@+id/jangdoor_one"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:text=""
-                                android:textSize="15dp" />
+                                android:textSize="15dp"/>
 
                         </RelativeLayout>
                         <!-- 냉장실 안 -->
@@ -174,14 +164,13 @@
                             android:layout_width="0px"
                             android:layout_height="match_parent"
                             android:layout_weight="1">
-
                             <TextView
                                 android:id="@+id/jang_one"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:text=""
-                                android:textSize="15dp" />
+                                android:textSize="15dp"/>
 
                         </RelativeLayout>
                     </LinearLayout>
@@ -211,13 +200,11 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="520">
-
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/fridge_2door" />
-
+                    android:src="@drawable/fridge_2door"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -227,13 +214,12 @@
                         android:layout_width="0px"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
-
                         <TextView
                             android:id="@+id/dongdoor_two"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:textSize="15dp" />
+                            android:textSize="15dp"/>
 
 
                     </RelativeLayout>
@@ -242,13 +228,12 @@
                         android:layout_width="0px"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
-
                         <TextView
                             android:id="@+id/dong_two"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:textSize="15dp" />
+                            android:textSize="15dp"/>
 
                     </RelativeLayout>
                     <!-- 냉장실 안 -->
@@ -256,13 +241,12 @@
                         android:layout_width="0px"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
-
                         <TextView
                             android:id="@+id/jang_two"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:textSize="15dp" />
+                            android:textSize="15dp"/>
 
                     </RelativeLayout>
                     <!-- 냉장실 문 -->
@@ -270,13 +254,12 @@
                         android:layout_width="0px"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
-
                         <TextView
                             android:id="@+id/jangdoor_two"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:textSize="15dp" />
+                            android:textSize="15dp"/>
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -332,18 +315,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="0px"
                     android:layout_weight="30"></LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0px"
                     android:layout_weight="250"
                     android:orientation="vertical">
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="0px"
                         android:layout_weight="1">
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -351,8 +331,7 @@
                             android:text="냉동실 문"
                             android:textColor="#4e4e4e"
                             android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true" />
-
+                            android:layout_centerVertical="true"/>
                         <Spinner
                             android:id="@+id/spinner_1"
                             android:layout_width="wrap_content"
@@ -360,16 +339,13 @@
                             android:prompt="@null"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:padding="0px"
                             android:background="@drawable/box_radius_white"></Spinner>
 
                     </RelativeLayout>
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="0px"
                         android:layout_weight="1">
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -377,25 +353,21 @@
                             android:text="냉동실 안"
                             android:textColor="#4e4e4e"
                             android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true" />
-
+                            android:layout_centerVertical="true"/>
                         <Spinner
                             android:id="@+id/spinner_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="0px"
                             android:prompt="@null"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:background="@drawable/box_radius_white"></Spinner>
 
                     </RelativeLayout>
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="0px"
                         android:layout_weight="1">
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -403,24 +375,20 @@
                             android:text="냉장실 안"
                             android:textColor="#4e4e4e"
                             android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true" />
-
+                            android:layout_centerVertical="true"/>
                         <Spinner
                             android:id="@+id/spinner_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:prompt="@null"
-                            android:padding="0px"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:background="@drawable/box_radius_white"></Spinner>
                     </RelativeLayout>
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="0px"
                         android:layout_weight="1">
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -428,14 +396,12 @@
                             android:text="냉장실 문"
                             android:textColor="#4e4e4e"
                             android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true" />
-
+                            android:layout_centerVertical="true"/>
                         <Spinner
                             android:id="@+id/spinner_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:prompt="@null"
-                            android:padding="0px"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:background="@drawable/box_radius_white"></Spinner>
@@ -478,16 +444,41 @@
         android:layout_weight="100"
         android:orientation="horizontal"
         android:weightSum="720">
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="100"></LinearLayout>
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_reset" />
-
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="260"
+            android:text="나가기"
+            android:textSize="16dp"
+            android:background="@drawable/box_radius_white"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:id="@+id/button_reset"/>
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="30"></LinearLayout>
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_apply" />
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="260"
+            android:text="수정하기"
+            android:textSize="16dp"
+            android:background="@drawable/box_radius_white"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:id="@+id/button_apply"/>
+
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="100"></LinearLayout>
+
     </LinearLayout>
     <!-- 여백 -->
     <LinearLayout

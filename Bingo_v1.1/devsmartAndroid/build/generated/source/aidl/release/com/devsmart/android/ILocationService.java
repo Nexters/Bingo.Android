@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: C:\\Users\\DH\\workspace\\Bingo_Android\\Bingo_v1.1\\devsmartAndroid\\src\\main\\aidl\\com\\devsmart\\android\\ILocationService.aidl
+ * Original file: /Users/Hagyut/Documents/Bingo.Android/Bingo_v1.1/devsmartAndroid/src/main/aidl/com/devsmart/android/ILocationService.aidl
  */
 package com.devsmart.android;
 public interface ILocationService extends android.os.IInterface

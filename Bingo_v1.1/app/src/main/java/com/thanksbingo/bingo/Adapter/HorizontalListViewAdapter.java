@@ -2,6 +2,8 @@ package com.thanksbingo.bingo.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.thanksbingo.CONST_STRINGS;
 import com.thanksbingo.bingo.Entities.Food;
+import com.thanksbingo.bingo.Entities.FoodImageView;
 import com.thanksbingo.bingo.R;
+import com.thanksbingo.db.BingoDB;
+import com.thanksbingo.db.FoodInFridgeContract;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,29 +32,29 @@ import java.util.Locale;
 
 //냉장고 이미지로보기 어댑터
 
-public class HorizontalListViewAdapter extends ArrayAdapter<Food> {
+public class HorizontalListViewAdapter extends ArrayAdapter<String> {
 
     private Context context;
-    ArrayList<Food> foodList;
-    LayoutInflater inflater;
     View rootView;
-    Food food;
-    int rowHeight;
+    ArrayList<String> howManyRow;
+    String whatFridge;
 
-    public HorizontalListViewAdapter(Context context, ArrayList<Food> foodList, int rowHeight) {
-        super(context, R.layout.horizontal_list, foodList);
+    //howManyFridge = { 2, 3, 4, 5, 6 };
+    //whatFridge = 0A(냉장실문), 0B(냉장실안), 0C(냉동실문), 0D(냉동실안)
+    public HorizontalListViewAdapter(Context context, ArrayList<String> _howManyRow, String _whatFridge) {
+        super(context, R.layout.horizontal_list, _howManyRow);
         this.context = context;
-        this.foodList = (ArrayList<Food>) foodList;
-        this.rowHeight=rowHeight;
+        this.howManyRow = _howManyRow;
+        this.whatFridge = _whatFridge;
         Locale.setDefault(Locale.KOREA);
     }
 
     public int getCount() {
-        return rowHeight;
+        return howManyRow.size();
     }
 
-    public Food getItem(int position) {
-        return foodList.get(position);
+    public String getItem(int position) {
+        return howManyRow.get(position);
     }
 
     public long getItemId(int position) {
@@ -61,72 +67,73 @@ public class HorizontalListViewAdapter extends ArrayAdapter<Food> {
         rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_list, null);
 
         LinearLayout wrapLinear = (LinearLayout) rootView.findViewById(R.id.wrap_linear);
-        //item addVIew
-        for (int i = 0; i < foodList.size(); i++) {
-            Food food2 = new Food();
-            food2 = foodList.get(i);
 
-            LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            View mLaout = mInflater.inflate(R.layout.fridge_img_list_item, null);
-            //커스텀 레이아웃 파일(xml)내의 뷰를 불러온다.
+        String loc_code = whatFridge + getItem(position);
+        BingoDB bingoDB = new BingoDB(context);
+        ArrayList<FoodInFridgeContract.FIFData> fif_list = bingoDB.getListOfFoodInFridge(loc_code);
 
-            TextView dday = (TextView) mLaout.findViewById(R.id.fridge_img_dday);
-            ImageView icon = (ImageView) mLaout.findViewById(R.id.fridge_img_icon);
-            TextView fName = (TextView) mLaout.findViewById(R.id.fridge_img_text);
+        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        //ArrayList<Food> food_list = null;
+        for (int i = 0; i < fif_list.size() + 1; i++) {
 
-            String date;
-            //dday setting
-            if (food2.getExpiryDate() == null || food2.getExpiryDate().equals("")) {
-                date = "2015-02-21";
-            } else {
-                date = food2.getExpiryDate();
+            Food f = null;
+            View mLayout = null;
+
+            if (i != fif_list.size()) {
+                f = new Food();
+                f.fif = fif_list.get(i);
+                f.flagFooter = false;
+
+                mLayout = mInflater.inflate(R.layout.fridge_img_list_item, null);
+
+                TextView dday = (TextView) mLayout.findViewById(R.id.fridge_img_dday);
+                String date = f.fif.exp_date.toString();
+                dday.setText(caldate(date));
+
+                TextView fName = (TextView) mLayout.findViewById(R.id.fridge_img_text);
+                fName.setText(f.fif.food_name);
+                wrapLinear.addView(mLayout);
+
+                FoodImageView icon = (FoodImageView)mLayout.findViewById(R.id.fridge_img_icon);
+
+                if (!f.flagFooter) {
+                    if (f.fif.food_id < 0) {
+                        icon.setImageResource(R.drawable.ic_launcher);
+                    }
+                    else {
+                        Bitmap icon_bitmap = BitmapFactory.decodeFile(bingoDB.getIconPath(f.fif.food_id)[0]);
+                        icon.setImageBitmap(icon_bitmap);
+                        icon.setFivId(f.fif._id);
+                        icon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                FoodImageView this_view = (FoodImageView)v;
+                                int fiv_id = this_view.getFivId();
+                                Log.i(CONST_STRINGS.BINGO_LOG, "III" + fiv_id);
+                            }
+                        });
+                    }
+                }
+
             }
-            dday.setText(caldate(date));
-            //icon setting
-            if (food2.getFoodName() == null || food2.getFoodName().equals("")) {
-                icon.setImageResource(R.drawable.ic_launcher);
-            } else if (food2.getFoodName().equals("멸치")) {
-                icon.setImageResource(R.drawable.anchovy);
-            } else if (food2.getFoodName().equals("사과")) {
-                icon.setImageResource(R.drawable.apple);
-            } else if (food2.getFoodName().equals("딸기")) {
-                icon.setImageResource(R.drawable.berry);
-            }else if (food2.getFoodName().equals("맥주")) {
-                icon.setImageResource(R.drawable.can_beer);
-            } else if (food2.getFoodName().equals("콜라")) {
-                icon.setImageResource(R.drawable.can_cola);
-            } else if (food2.getFoodName().equals("당근")) {
-                icon.setImageResource(R.drawable.carrot);
-            } else if (food2.getFoodName().equals("치킨")) {
-                icon.setImageResource(R.drawable.chicken);
-            } else {
-                icon.setImageResource(R.drawable.ic_launcher);
+            else {
+                f = new Food();
+                f.fif = null;
+                f.flagFooter = true;
+                //food_list.add(f);
+
+                mLayout = mInflater.inflate(R.layout.list_footer, null);
             }
 
-            //name setting
-            fName.setText(food2.getFoodName());
-            wrapLinear.addView(mLaout);
+            wrapLinear.addView(mLayout);
         }
+
         return rootView;
     }
 
     @Override
     public Filter getFilter() {
         return null;
-    }
-
-    @Override
-    public void add(Food food) {
-        foodList.add(food);
-        notifyDataSetChanged();
-        super.add(food);
-    }
-
-    @Override
-    public void remove(Food food) {
-        foodList.remove(food);
-        notifyDataSetChanged();
-        super.remove(food);
     }
 
     //dday 계산 코드

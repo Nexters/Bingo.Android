@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.thanksbingo.CONST_STRINGS;
+import com.thanksbingo.bingo.Entities.DoorNo;
 import com.thanksbingo.bingo.R;
 
 /**
@@ -143,11 +145,11 @@ public class FridgeCustom extends Activity{
                     tv_jang_one.setText("");
                     tv_jang_two.setText("");
                 } else {
-                    jang_door = position + 1;
+                    jang = position + 1;
                     if (selection == 2)
-                        tv_jang_two.setText(jang_door.toString());
+                        tv_jang_two.setText(jang.toString());
                     else
-                        tv_jang_one.setText(jang_door.toString());
+                        tv_jang_one.setText(jang.toString());
                 }
 
             }
@@ -192,6 +194,13 @@ public class FridgeCustom extends Activity{
 
         btn_apply.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                DoorNo pref = new DoorNo(getApplicationContext());
+                pref.put(CONST_STRINGS.FREEZER_DOOR_ROW_CNT, dong_door);
+                pref.put(CONST_STRINGS.FREEZER_IN_ROW_CNT, dong);
+                pref.put(CONST_STRINGS.FRIDGE_DOOR_ROW_CNT, jang);
+                pref.put(CONST_STRINGS.FRIDGE_IN_ROW_CNT, jang_door);
+
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
