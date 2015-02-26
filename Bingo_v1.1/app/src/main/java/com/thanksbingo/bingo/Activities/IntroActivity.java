@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.thanksbingo.CONST_STRINGS;
+import com.thanksbingo.bingo.Entities.DoorNo;
 import com.thanksbingo.bingo.R;
 import com.thanksbingo.db.BingoDB;
 import com.thanksbingo.db.OtherClasses;
@@ -29,10 +30,26 @@ public class IntroActivity extends ActionBarActivity {
 
         int last_history = 0;
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(CONST_STRINGS.SP_FILE_KEY, Context.MODE_PRIVATE);
-        if (!sharedPref.contains(CONST_STRINGS.SP_FOOD_INFO_LAST_HISTORY))
-            bingoDB.initiateFoodInfoDbAndStartFirstActivity(MainActivity.class);
-        else
-            bingoDB.updateFoodInfoDbAndStartFirstActivity(MainActivity.class);
+        if (!sharedPref.contains(CONST_STRINGS.SP_FOOD_INFO_LAST_HISTORY)) {
+            if (DoorNo.checkYo(sharedPref)) {
+                bingoDB.initiateFoodInfoDbAndStartFirstActivity(MainActivity.class);
+            }
+            else {
+                Intent intent = new Intent(getApplicationContext(), FridgeCustom.class);
+                startActivity(intent);
+            }
+            finish();
+        }
+        else {
+            if (DoorNo.checkYo(sharedPref)) {
+                bingoDB.updateFoodInfoDbAndStartFirstActivity(MainActivity.class);
+            }
+            else {
+                Intent intent = new Intent(getApplicationContext(), FridgeCustom.class);
+                startActivity(intent);
+            }
+            finish();
+        }
 
         ArrayList<OtherClasses.SomeFood> food_list = bingoDB.getFoodList();
         for (int i = 0; i < food_list.size(); i++) {

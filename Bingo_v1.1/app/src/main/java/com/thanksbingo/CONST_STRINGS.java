@@ -15,5 +15,10 @@ public class CONST_STRINGS {
     public static final String FR_TAB2 = "0C";
     public static final String FR_TAB3 = "0D";
 
+    public static final String FREEZER_DOOR_ROW_CNT = "FREEZER DOOR ROW COUNT";
+    public static final String FREEZER_IN_ROW_CNT = "FREEZER IN ROW COUNT";
+    public static final String FRIDGE_DOOR_ROW_CNT = "FRIDGE DOOR ROW COUNT";
+    public static final String FRIDGE_IN_ROW_CNT = "FRIDGE IN ROW COUNT";
+
     public static final String ICON_PATH = "/Bingo/Icons/";
 }

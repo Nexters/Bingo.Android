@@ -18,7 +18,6 @@ import com.thanksbingo.bingo.Fragments.CustomerFragment;
 import com.thanksbingo.bingo.Fragments.DeadlineFragment;
 import com.thanksbingo.bingo.Fragments.DeveloperFragment;
 import com.thanksbingo.bingo.Fragments.MyBingoFragment;
-import com.thanksbingo.bingo.Fragments.RecipeFragment;
 import com.thanksbingo.bingo.Fragments.StoregeFragment;
 import com.thanksbingo.bingo.R;
 
@@ -142,7 +141,7 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
                 break;
             //요리법
             case 5:
-                fragment = new RecipeFragment();
+                fragment = new MyBingoFragment();
                 break;
             // case 6 : 라인
             // 고객 센터
