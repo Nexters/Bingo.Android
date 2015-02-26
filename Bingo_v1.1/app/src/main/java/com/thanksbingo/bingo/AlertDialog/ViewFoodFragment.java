@@ -41,19 +41,7 @@ public class ViewFoodFragment extends DialogFragment {
     private SpeechToText stt;
 
     BingoDB bingoDB;
-    /*
-    담이누나
-    이 ViewFoodFragment가 달력이 있는 창이야
-    음식물을 눌렀을 때 뜨는 창이 이거야
-    음식을 클릭했을 때, 그 클릭한 음식에 대한 정보를 가지고 이 fragment가 열려야할거아니야?
-    그럼 takMainActivity.class에 있는 callViewFoodDialog() 메쏘드처럼 하면 돼.
-    거기에보면 ViewFoodFragment.newInstance(~~)가 있잖아
-    지금은 String값을 파라미터로 넘겨주지만 나중엔 누나가 String대신 그 음식의 정보를 넘겨주면 되겠지.
-    그럼 이 fragment에서 onCreateView에서 그 정보들을 가져오는거야
-    밑에 보면 if(getArguments() != null) {} 있잖아. 여기서 가져오는거야
-    이렇게만하면될듯!!!!
 
-     */
     public static ViewFoodFragment newInstance(String param1, String param2) {
         ViewFoodFragment fragment = new ViewFoodFragment();
         Bundle args = new Bundle();
@@ -66,13 +54,10 @@ public class ViewFoodFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);            //Titlebar 없앰
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         if(getArguments() != null) {
-           /*
-           Bundle args = getArguments();
-           String hello = args.getString(~~);
-            */
+
         }
 
         View v = inflater.inflate(R.layout.view_food_fragment, container, false);
@@ -186,15 +171,4 @@ public class ViewFoodFragment extends DialogFragment {
         this.dismiss();
     }
 
-    //EditFoodFragment 창을 불러낸다.
-    //나중에는 bundle에 현재 food의 information을 담아서 같이 보내줘서
-    //EditFoodFragment에 현재 저장되어 있는 정보를 보여준다.
-    /*
-    private void callEditFoodFragment() {
-        Dialog d = this.getDialog();
-        FragmentManager m = getFragmentManager();
-        d.dismiss();        //ViewFoodDialog는 없앤다.
-        EditFoodFragment e = new EditFoodFragment();        //EditFoodFragment를 부른다.
-        e.show(m,"");    //Tag는 일단 그냥 빈 상태로 둔다.
-    }*/
 }
