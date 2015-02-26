@@ -16,11 +16,7 @@
             android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_weight="110">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/icon_menu"
-                android:scaleType="fitCenter"/>
+
         </LinearLayout>
         <RelativeLayout
             android:layout_width="0px"
