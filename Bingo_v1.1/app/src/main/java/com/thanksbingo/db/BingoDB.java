@@ -534,6 +534,55 @@ public class BingoDB {
     }
 
 
+    public FoodInFridgeContract.FIFData getFIF(int _id) {
+
+        db = db_helper.getReadableDatabase();
+
+        String[] projection = {
+                FoodInFridgeContract.FoodInFridge._ID,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_ID,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_NAME,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_REG_DATE,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_EXP_DATE,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_AMOUNT,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_POSITION,
+                FoodInFridgeContract.FoodInFridge.COLUMN_NAME_HISTORY
+        };
+
+        String selection = FoodInFridgeContract.FoodInFridge._ID + " == ?";
+        String[] selectionArgs = { String.valueOf(_id) };
+
+        Cursor c = db.query(
+                FoodInFridgeContract.FoodInFridge.TABLE_NAME,      // The table to query
+                projection,                                 // The columns to return
+                selection,                                       // The columns for the WHERE clause
+                selectionArgs,                                       // The values for the WHERE clause
+                null,                                       // don't group the rows
+                null,                                       // don't filter by row groups
+                null                                  // The sort order
+        );
+
+        c.moveToFirst();
+
+        FoodInFridgeContract.FIFData fif = new FoodInFridgeContract.FIFData();
+        fif._id = c.getInt(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge._ID));
+        fif.food_id = c.getInt(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_ID));
+        fif.food_name = c.getString(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_NAME));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        try {
+            fif.reg_date = dateFormat.parse(c.getString(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_REG_DATE)));
+            fif.exp_date = dateFormat.parse(c.getString(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_EXP_DATE)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        fif.amount = c.getInt(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_AMOUNT));
+        fif.history = c.getInt(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_HISTORY));
+        fif.position = c.getString(c.getColumnIndexOrThrow(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_POSITION));
+
+        return fif;
+    }
+
+
     /* ******************************************************************************************************** */
     /* ******************************************************************************************************** */
     /* ******************************************************************************************************** */

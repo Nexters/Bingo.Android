@@ -212,4 +212,8 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
         ViewFoodFragment f = ViewFoodFragment.newInstance(loc_code, "Hi");
         f.show(fm, "");
     }
+
+    private void callEditFoodDialog(String fiv_id) {
+
+    }
 }

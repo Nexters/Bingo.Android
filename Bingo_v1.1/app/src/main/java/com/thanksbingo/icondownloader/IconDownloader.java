@@ -25,6 +25,11 @@ import java.util.ArrayList;
 
 public class IconDownloader {
 
+//    public interface AfterDownloadingIcon {
+//
+//        public void afterDownloadingIcon();
+//    }
+
     public class NoIconUrlException extends Exception {
         public NoIconUrlException(String message) {
             super(message);
@@ -46,6 +51,8 @@ public class IconDownloader {
     private ArrayList<String> iconURLs;
     private String dirPath;         // Format "/~~~/~~~/.../~~~/"
 
+//    private AfterDownloadingIcon callback;
+
     public IconDownloader(ArrayList<String> _iconURLs, String _dirPath) {
 
         iconURLs = _iconURLs;
@@ -57,6 +64,10 @@ public class IconDownloader {
         iconURLs = null;
         dirPath = _dirPath;
     }
+
+//    public void setAfterDownloadingIconCallback(AfterDownloadingIcon _cb) {
+//        callback = _cb;
+//    }
 
     public void setIconURLs(ArrayList<String> _iconURLs) {
 

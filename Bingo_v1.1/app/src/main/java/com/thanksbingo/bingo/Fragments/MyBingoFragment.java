@@ -1,12 +1,15 @@
 package com.thanksbingo.bingo.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +17,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.thanksbingo.CONST_STRINGS;
 import com.thanksbingo.bingo.R;
 import com.thanksbingo.bingo.TabFragment.TabFirstDoor;
 import com.thanksbingo.bingo.TabFragment.TabFirstIn;
 import com.thanksbingo.bingo.TabFragment.TabSecondDoor;
 import com.thanksbingo.bingo.TabFragment.TabSecondIn;
+import com.thanksbingo.db.BingoDB;
+import com.thanksbingo.db.FoodInfoContract;
 
 import java.util.ArrayList;
 
@@ -48,6 +54,15 @@ public class MyBingoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        BingoDB bingoDB = new BingoDB(this.getActivity().getApplicationContext());
+        ArrayList<FoodInfoContract.FIData> a = bingoDB.getAllFoodInfo();
+        for (int i = 0; i < a.size(); i++) {
+            Log.i(CONST_STRINGS.BINGO_LOG, "num " + i + ", " + a.get(i).food_name + ", " + a.get(i).icon_img1);
+        }
+        SharedPreferences sp = this.getActivity().getApplicationContext().getSharedPreferences(CONST_STRINGS.SP_FILE_KEY, Context.MODE_PRIVATE);
+        int last_history = sp.getInt(CONST_STRINGS.SP_FOOD_INFO_LAST_HISTORY, 0);
+        Log.i(CONST_STRINGS.BINGO_LOG, "last,, " + last_history);
     }
 
     @Override
