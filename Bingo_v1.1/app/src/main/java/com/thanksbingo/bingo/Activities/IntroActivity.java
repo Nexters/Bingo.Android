@@ -35,8 +35,9 @@ public class IntroActivity extends ActionBarActivity {
                 bingoDB.initiateFoodInfoDbAndStartFirstActivity(MainActivity.class);
             }
             else {
-                Intent intent = new Intent(getApplicationContext(), FridgeCustom.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getApplicationContext(), FridgeCustom.class);
+//                startActivity(intent);
+                bingoDB.initiateFoodInfoDbAndStartFirstActivity(FridgeCustom.class);
             }
             finish();
         }
@@ -45,15 +46,9 @@ public class IntroActivity extends ActionBarActivity {
                 bingoDB.updateFoodInfoDbAndStartFirstActivity(MainActivity.class);
             }
             else {
-                Intent intent = new Intent(getApplicationContext(), FridgeCustom.class);
-                startActivity(intent);
+                bingoDB.updateFoodInfoDbAndStartFirstActivity(FridgeCustom.class);
             }
             finish();
-        }
-
-        ArrayList<OtherClasses.SomeFood> food_list = bingoDB.getFoodList();
-        for (int i = 0; i < food_list.size(); i++) {
-            Log.i(CONST_STRINGS.BINGO_LOG, "" + food_list.get(i).food_name);
         }
     }
 }

@@ -218,8 +218,6 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
         f.show(fm, "");
     }
 
-
-
     //추가 다이얼로그
     // 음식물 등록 Fragment
     private void callEditFoodDialog(String fiv_id) {
@@ -227,7 +225,4 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
         EditFoodFragment f = EditFoodFragment.newInstance(fiv_id, "Hi");
         f.show(fm, "");
     }
-
-
-
 }

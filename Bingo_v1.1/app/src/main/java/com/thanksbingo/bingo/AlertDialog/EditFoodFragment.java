@@ -109,7 +109,7 @@ public class EditFoodFragment extends DialogFragment {
 
                         //아이디 값에 해당하는 음식 정보를 가져와서 edittext에 붙여넣기
 
-                       
+
 
                        // fifd.
 
