@@ -176,10 +176,6 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         return true;
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        // Handle action bar item clicks here. The action bar will
@@ -211,6 +207,11 @@ public class MainActivity extends NavigationLiveo implements NavigationLiveoList
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , pendingIntent);  //set repeating every 24 hours
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }

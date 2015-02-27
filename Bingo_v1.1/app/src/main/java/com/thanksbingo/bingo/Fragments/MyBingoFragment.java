@@ -1,6 +1,7 @@
 package com.thanksbingo.bingo.Fragments;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.thanksbingo.bingo.R;
 import com.thanksbingo.bingo.TabFragment.TabFirstDoor;
@@ -22,21 +22,17 @@ import com.thanksbingo.bingo.TabFragment.TabSecondIn;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MyBingoFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MyBingoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MyBingoFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
 
+public class MyBingoFragment extends Fragment {
     View v;
 
     ArrayList<String> howManyRow = null;
     String whatFridge = null;
+
+    Button tab01;
+    Button tab02;
+    Button tab03;
+    Button tab04;
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,10 +58,10 @@ public class MyBingoFragment extends Fragment {
 
         ListView lv = (ListView) v.findViewById(R.id.main_list);
 
-        Button tab01 = (Button) v.findViewById(R.id.main_tab01);
-        Button tab02 = (Button) v.findViewById(R.id.main_tab02);
-        Button tab03 = (Button) v.findViewById(R.id.main_tab03);
-        Button tab04 = (Button) v.findViewById(R.id.main_tab04);
+        tab01 = (Button) v.findViewById(R.id.main_tab01);
+        tab02 = (Button) v.findViewById(R.id.main_tab02);
+        tab03 = (Button) v.findViewById(R.id.main_tab03);
+        tab04 = (Button) v.findViewById(R.id.main_tab04);
 
         tab01.setOnClickListener(mTabClickListener);
         tab02.setOnClickListener(mTabClickListener);
@@ -73,9 +69,20 @@ public class MyBingoFragment extends Fragment {
         tab04.setOnClickListener(mTabClickListener);
 
         //처음 실행될때 냉장실 안이 선택되어 있는 상태로
-        Fragment tabFirstDoor = new TabFirstDoor();
+        Fragment tabFirstIn = new TabFirstIn();
         FragmentTransaction transaction2 = getChildFragmentManager().beginTransaction();
-        transaction2.replace(R.id.tab_container, tabFirstDoor).commit();
+        transaction2.replace(R.id.tab_container, tabFirstIn).commit();
+
+//        tab02.setBackgroundColor(Color.parseColor("#7ae4dd"));
+//        tab02.setTextColor(Color.parseColor("#ffffff"));
+        tab01.setBackgroundColor(Color.parseColor("#ffffff"));
+        tab01.setTextColor(Color.parseColor("#4ac6be"));
+        tab02.setBackgroundColor(Color.parseColor("#7ae4dd"));
+        tab02.setTextColor(Color.parseColor("#ffffff"));
+        tab03.setBackgroundColor(Color.parseColor("#ffffff"));
+        tab03.setTextColor(Color.parseColor("#4ac6be"));
+        tab04.setBackgroundColor(Color.parseColor("#ffffff"));
+        tab04.setTextColor(Color.parseColor("#4ac6be"));
 
         return v;
     }
@@ -91,7 +98,7 @@ public class MyBingoFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener)activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -110,52 +117,79 @@ public class MyBingoFragment extends Fragment {
             switch (v.getId()) {
                 //냉장실문
                 case R.id.main_tab01:
-                    Toast.makeText(v.getContext(), "냉장실문", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(v.getContext(), "냉장실문", Toast.LENGTH_SHORT).show();
                     FragmentManager fm = getChildFragmentManager();
 
                     Fragment tabFirstDoor = new TabFirstDoor();
                     FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                     transaction.replace(R.id.tab_container, tabFirstDoor).commit();
 
+                    tab01.setBackgroundColor(Color.parseColor("#7ae4dd"));
+                    tab01.setTextColor(Color.parseColor("#ffffff"));
+                    tab02.setBackgroundColor(Color.parseColor("#ffffff"));
+                    tab02.setTextColor(Color.parseColor("#4ac6be"));
+                    tab03.setBackgroundColor(Color.parseColor("#ffffff"));
+                    tab03.setTextColor(Color.parseColor("#4ac6be"));
+                    tab04.setBackgroundColor(Color.parseColor("#ffffff"));
+                    tab04.setTextColor(Color.parseColor("#4ac6be"));
+
                     break;
                 //냉장실안
                 case R.id.main_tab02:
-                    Toast.makeText(v.getContext(), "냉장실안", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(v.getContext(), "냉장실안", Toast.LENGTH_SHORT).show();
                     Fragment tabFirstIn = new TabFirstIn();
                     FragmentTransaction transaction2 = getChildFragmentManager().beginTransaction();
                     transaction2.replace(R.id.tab_container, tabFirstIn).commit();
 
+
+                    tab01.setBackgroundColor(Color.parseColor("#ffffff"));
+                    tab01.setTextColor(Color.parseColor("#4ac6be"));
+                    tab02.setBackgroundColor(Color.parseColor("#7ae4dd"));
+                    tab02.setTextColor(Color.parseColor("#ffffff"));
+                    tab03.setBackgroundColor(Color.parseColor("#ffffff"));
+                    tab03.setTextColor(Color.parseColor("#4ac6be"));
+                    tab04.setBackgroundColor(Color.parseColor("#ffffff"));
+                    tab04.setTextColor(Color.parseColor("#4ac6be"));
+
                     break;
                 //냉동실문
                 case R.id.main_tab03:
-                    Toast.makeText(v.getContext(), "냉동실문", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(v.getContext(), "냉동실문", Toast.LENGTH_SHORT).show();
                     Fragment tabSecondDoor = new TabSecondDoor();
                     FragmentTransaction transaction3 = getChildFragmentManager().beginTransaction();
                     transaction3.replace(R.id.tab_container, tabSecondDoor).commit();
 
+                    tab01.setBackgroundColor(Color.parseColor("#ffffff"));
+                    tab01.setTextColor(Color.parseColor("#4ac6be"));
+                    tab02.setBackgroundColor(Color.parseColor("#ffffff"));
+                    tab02.setTextColor(Color.parseColor("#4ac6be"));
+                    tab03.setBackgroundColor(Color.parseColor("#7ae4dd"));
+                    tab03.setTextColor(Color.parseColor("#ffffff"));
+                    tab04.setBackgroundColor(Color.parseColor("#ffffff"));
+                    tab04.setTextColor(Color.parseColor("#4ac6be"));
+
                     break;
                 //냉동실 안
                 case R.id.main_tab04:
-                    Toast.makeText(v.getContext(), "냉동실안", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(v.getContext(), "냉동실안", Toast.LENGTH_SHORT).show();
                     Fragment tabSecondIn = new TabSecondIn();
                     FragmentTransaction transaction4 = getChildFragmentManager().beginTransaction();
                     transaction4.replace(R.id.tab_container, tabSecondIn).commit();
+
+                    tab01.setBackgroundColor(Color.parseColor("#ffffff"));
+                    tab01.setTextColor(Color.parseColor("#4ac6be"));
+                    tab02.setBackgroundColor(Color.parseColor("#ffffff"));
+                    tab02.setTextColor(Color.parseColor("#4ac6be"));
+                    tab03.setBackgroundColor(Color.parseColor("#ffffff"));
+                    tab03.setTextColor(Color.parseColor("#4ac6be"));
+                    tab04.setBackgroundColor(Color.parseColor("#7ae4dd"));
+                    tab04.setTextColor(Color.parseColor("#ffffff"));
 
                     break;
             }
         }
     };
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);

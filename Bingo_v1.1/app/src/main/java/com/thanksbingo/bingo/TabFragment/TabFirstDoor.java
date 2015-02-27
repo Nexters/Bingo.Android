@@ -1,24 +1,21 @@
 package com.thanksbingo.bingo.TabFragment;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
+import com.thanksbingo.CONST_STRINGS;
 import com.thanksbingo.bingo.Adapter.HorizontalListViewAdapter;
 import com.thanksbingo.bingo.AlertDialog.EditFoodFragment;
-import com.thanksbingo.bingo.AlertDialog.ViewFoodFragment;
+import com.thanksbingo.bingo.Entities.DoorNo;
 import com.thanksbingo.bingo.Entities.Food;
 import com.thanksbingo.bingo.R;
 
@@ -37,10 +34,6 @@ public class TabFirstDoor extends Fragment {
     private static final String ARG_PARAM3 = "param3";
     private static final String ARG_PARAM4 = "param4";
 
-    private String foodname;
-    private int count;
-    private String boughtdate;
-    private String expirydate;
 
     ArrayList<String> howManyFridge = null;
     String whatFridge = null;
@@ -67,39 +60,6 @@ public class TabFirstDoor extends Fragment {
         super.onCreate(savedInstanceState);
 
         foodList = new ArrayList<Food>();
-//
-//        BingoDB bingoDB = new BingoDB(getActivity().getApplicationContext());
-//        ArrayList<FoodInFridgeContract.FIFData> fif_list = bingoDB.getListOfFoodInFridge("0A01");
-//        for (int i = 0; i < fif_list.size(); i++) {
-//            Food f = new Food();
-//            f.fif = fif_list.get(i);
-//            f.flagFooter = false;
-//            foodList.add(f);
-//        }
-//        Food f = new Food();
-//        f.fif = null;
-//
-//        f.flagFooter = true;
-//        foodList.add(f);
-
-//        foodList.add(new Food("사과", 3, "2011-01-31","2011-01-31"));
-//        foodList.add(new Food("베리", 4, "2011-01-31", "2015-02-01"));
-//        //can_beer, can_cola
-//        foodList.add(new Food("맥주", 7, "2011-01-31", "2015-01-02"));
-//        foodList.add(new Food("콜라",9, "2011-01-31", "2015-02-02"));
-//        foodList.add(new Food("당근", 12, "2011-01-31", "2015-03-30"));
-//        foodList.add(new Food("치킨", 15, "2011-01-31", "2015-04-31"));
-//        foodList.add(new Food("clam", 2, "2011-01-31", "2015-05-01"));
-        //DD
-//        Food f = new Food("flag", "flag");
-//        f.flagFooter = true;
-//        foodList.add(f);
-//        if (getArguments() != null) {
-//            foodname = getArguments().getString(ARG_PARAM1);
-//            count = getArguments().getInt(ARG_PARAM2);
-//            boughtdate = getArguments().getString(ARG_PARAM3);
-//            expirydate = getArguments().getString(ARG_PARAM4);
-//        }
 
     }
 
@@ -108,65 +68,60 @@ public class TabFirstDoor extends Fragment {
                              Bundle savedInstanceState) {
 
 
-//        v = (RelativeLayout) inflater.inflate(R.layout.activity_fridge_row2, container, false);
-
         v = (RelativeLayout) inflater.inflate(R.layout.tab_fragment, container, false);
-/*
-
-        int rowHeight = 3;
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, rowHeight);
-        v.setLayoutParams(lp);
-*/
-
-//        if (getArguments() != null) {
-//            foodname = getArguments().getString(ARG_PARAM1);
-//            count = getArguments().getInt(ARG_PARAM2);
-//            boughtdate = getArguments().getString(ARG_PARAM3);
-//            expirydate = getArguments().getString(ARG_PARAM4);
-//        }
-
-//        //아이콘들을 붙일 레이아웃 동적 생성
-//        HorizontalListView listview = (HorizontalListView) v.findViewById(R.id.lv_fridge_img1);
-//        adapter = new FridgeRowAdapter(getActivity().getApplicationContext(), foodList);
-//
-//        listview.setAdapter(adapter);
-//
-//        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Food f = (Food) parent.getAdapter().getItem(position);
-//
-//                if(f.flagFooter == true){
-//                    callViewFoodDialog("0A01");
-//                } else {
-//                // 물품이름, 갯수, 등록일자, 유통기한
-//
-//                callEditFoodDialog(f.fif.food_name, f.fif.amount, f.fif.reg_date.toString(), f.fif.exp_date.toString());
-//
-//                }
-//
-//            }
-//        });
 
         //해당 칸에 선반 갯수가 몇개인지
+        DoorNo pref = new DoorNo(getActivity().getApplicationContext());
+        int count = pref.getValue(CONST_STRINGS.FREEZER_DOOR_ROW_CNT, 0);
         howManyFridge = new ArrayList<>();
-        howManyFridge.add("2");
-        howManyFridge.add("3");
-        howManyFridge.add("4");
-//        howManyFridge.add("5");
-//        howManyFridge.add("6");
+        if(count==2){
+            howManyFridge.add("1");
+            howManyFridge.add("2");
+        }else if(count == 3){
+            howManyFridge.add("1");
+            howManyFridge.add("2");
+            howManyFridge.add("3");
+        }else if(count == 4){
+            howManyFridge.add("1");
+            howManyFridge.add("2");
+            howManyFridge.add("3");
+            howManyFridge.add("4");
+        }else if(count == 5){
+            howManyFridge.add("1");
+            howManyFridge.add("2");
+            howManyFridge.add("3");
+            howManyFridge.add("4");
+            howManyFridge.add("5");
+        }else if(count == 6){
+            howManyFridge.add("1");
+            howManyFridge.add("2");
+            howManyFridge.add("3");
+            howManyFridge.add("4");
+            howManyFridge.add("5");
+            howManyFridge.add("6");
+        }
+
 
         //냉장고 어느 칸인지
         whatFridge = "0A";
 
+//        public HorizontalListViewAdapter(Context context, ArrayList<String> _howManyRow, String _whatFridge) {
 
-        ListView lv = (ListView) v.findViewById(R.id.main_list);
+        ListView lv = (ListView) v.findViewById(R.id.main_list);// 죽은건가? ㅋ 전체화면 풀어바
         HorizontalScrollView hsv = (HorizontalScrollView) v.findViewById(R.id.main_horizontal);
-        mAdapter = new HorizontalListViewAdapter(getActivity().getApplicationContext(), howManyFridge, whatFridge);
+        mAdapter = new HorizontalListViewAdapter(getActivity().getApplicationContext(), howManyFridge, whatFridge, getActivity().getSupportFragmentManager());
         lv.setAdapter(mAdapter);
         return v;
     }
-
+//도현이가 코드를 줬ㄴㄴ데 저기서 에러가 떠요
+//            도현이가 하라고 한건
+//    일단 tapfragment 를 자기가 준 파일로 모두 교체하고
+//            myBingofragment에서 수정하고 그 정도였는데
+//            준 fragment에서 에러가 나요 히힛
+//            HorizontalListViewAdapter 쪽은 고친거 없대?
+    //있어용ㅋㅋ 반영했어? ㅋ
+    //넹넹 ㅇ반영도 하고 고칠라고 하다보니 조금 수정된 곳도 있고 망함...
+    // ㅋㅋ 윤딧이 어케 넘겨줌?
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -181,17 +136,6 @@ public class TabFirstDoor extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -199,13 +143,6 @@ public class TabFirstDoor extends Fragment {
 
     }
 
-
-    // 음식물 등록 Fragment
-    private void callViewFoodDialog(String loc_code) {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        ViewFoodFragment f = ViewFoodFragment.newInstance(loc_code, "Hi");
-        f.show(fm, "");
-    }
 
 
     // 음식물 수정 및 보기 Fragment
@@ -216,22 +153,5 @@ public class TabFirstDoor extends Fragment {
         EditFoodFragment f = EditFoodFragment.newInstance(foodname, count, boughtdate, expirydate);
         f.show(fm, "");
     }
-
-//    private void callUpFridgeFragment(int pos, int rowNum, FridgeRow.Style style) {
-//        Fragment existingFrag = getExistingFridgeFragment();
-//        FragmentTransaction t = getChildFragmentManager().beginTransaction();
-//        Toast.makeText(getActivity(), "pos: " + pos + " rowNum: " + rowNum + " style : " + style, Toast.LENGTH_SHORT).show();
-//        if (existingFrag != null) {     //만약 이미 떠있는 fridgefragment가있으면 replace를한다.
-//            t.replace(R.id.main_fragment_container, FridgeFragment.newInstance(pos, rowNum, style), FRIDGE_FRAGMENT_TAG);
-//            t.commit();
-//            return;
-//        }
-//        t.add(R.id.main_fragment_container, FridgeFragment.newInstance(pos, rowNum, style), FRIDGE_FRAGMENT_TAG).commit();
-//    }
-//
-//    private Fragment getExistingFridgeFragment() {
-//        return getChildFragmentManager().findFragmentByTag(FRIDGE_FRAGMENT_TAG);
-//    }
-
 
 }

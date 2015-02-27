@@ -4,19 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.thanksbingo.CONST_STRINGS;
+import com.thanksbingo.bingo.AlertDialog.ViewFoodFragment;
 import com.thanksbingo.bingo.Entities.Food;
 import com.thanksbingo.bingo.Entities.FoodImageView;
 import com.thanksbingo.bingo.R;
@@ -34,18 +33,21 @@ import java.util.Locale;
 
 public class HorizontalListViewAdapter extends ArrayAdapter<String> {
 
+
     private Context context;
     View rootView;
     ArrayList<String> howManyRow;
     String whatFridge;
 
+    FragmentManager fm;
     //howManyFridge = { 2, 3, 4, 5, 6 };
     //whatFridge = 0A(냉장실문), 0B(냉장실안), 0C(냉동실문), 0D(냉동실안)
-    public HorizontalListViewAdapter(Context context, ArrayList<String> _howManyRow, String _whatFridge) {
+    public HorizontalListViewAdapter(Context context, ArrayList<String> _howManyRow, String _whatFridge, FragmentManager fm) {
         super(context, R.layout.horizontal_list, _howManyRow);
         this.context = context;
         this.howManyRow = _howManyRow;
         this.whatFridge = _whatFridge;
+        this.fm=fm;
         Locale.setDefault(Locale.KOREA);
     }
 
@@ -74,6 +76,10 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
 
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         //ArrayList<Food> food_list = null;
+
+
+        wrapLinear.removeAllViews();
+        wrapLinear.removeAllViewsInLayout();
         for (int i = 0; i < fif_list.size() + 1; i++) {
 
             Food f = null;
@@ -83,15 +89,22 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
             FoodImageView icon = (FoodImageView)mLayout.findViewById(R.id.fridge_img_iconn);
 
             if (i != fif_list.size()) {
+
                 f = new Food();
                 f.fif = fif_list.get(i);
                 f.flagFooter = false;
 
-                String date = f.fif.exp_date.toString();
+                DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date temp = f.fif.exp_date;
+                String date = sdFormat.format(temp);
+
+//                String date = f.fif.exp_date.toString();
+
                 dday.setText(caldate(date));
 
                 fName.setText(f.fif.food_name);
-                wrapLinear.addView(mLayout);
+
+//                wrapLinear.addView(mLayout);
 
                 if (!f.flagFooter) {
                     if (f.fif.food_id < 0) {
@@ -126,6 +139,7 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
                     @Override
                     public void onClick(View v) {
                         Log.i(CONST_STRINGS.BINGO_LOG, "add btn " + loc_code);
+                        callViewFoodDialog(loc_code);
                     }
                 });
                 //mLayout = mInflater.inflate(R.layout.list_footer, null);
@@ -189,5 +203,13 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
             e.printStackTrace();
             return null;
         }
+    }
+
+    //추가 다이얼로그
+    // 음식물 등록 Fragment
+    private void callViewFoodDialog(String loc_code) {
+        FragmentManager fragmentManager = fm;
+        ViewFoodFragment f = ViewFoodFragment.newInstance(loc_code, "Hi");
+        f.show(fm, "");
     }
 }

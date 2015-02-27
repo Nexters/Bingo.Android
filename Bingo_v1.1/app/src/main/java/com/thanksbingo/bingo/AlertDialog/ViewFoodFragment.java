@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.thanksbingo.bingo.Calendar.CalendarFragment;
 import com.thanksbingo.bingo.R;
@@ -125,12 +127,15 @@ public class ViewFoodFragment extends DialogFragment {
                         dismissDialog();
                         String food_name = foodNameEditText.getText().toString();
                         food_name = food_name.replace(" ", "");
-//                        int food_id = bingoDB.getFoodInfoIdOf(food_name);
-//                        int food_amount = Integer.getInteger(foodAmountText.getText().toString());
-//                        String position = getArguments().getString(LOC_CODE);
-//                        String reg_date = entered_date_text.getText().toString();
-//                        String exp_date = expiry_date_text.getText().toString();
-//                        int history = 0;
+
+                        if (TextUtils.isEmpty(foodNameEditText.getText())
+                                &&TextUtils.isEmpty(foodAmountText.getText())
+                                &&TextUtils.isEmpty(entered_date_text.getText())
+                                &&TextUtils.isEmpty(expiry_date_text.getText())) {
+                            // EditText was empty
+                            // Do something fancy
+                            Toast.makeText(getActivity(),"some info is null", Toast.LENGTH_SHORT);
+                        }
 
                         FoodInFridgeContract.FIFData fif = new FoodInFridgeContract.FIFData();
                         fif.food_name = food_name;
@@ -141,8 +146,7 @@ public class ViewFoodFragment extends DialogFragment {
                         try {
                             fif.reg_date = sdf.parse(entered_date_text.getText().toString());
                             fif.exp_date = sdf.parse(expiry_date_text.getText().toString());
-                        }
-                        catch (ParseException e) {
+                        } catch (ParseException e) {
                             e.printStackTrace();
                         }
                         fif.history = 0;
