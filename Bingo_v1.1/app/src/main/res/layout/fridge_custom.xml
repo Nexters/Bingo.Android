@@ -3,6 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#7ae4dd"
     android:weightSum="1280">
     <!-- 여백 -->
     <LinearLayout
@@ -43,7 +44,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11dp"
+                    android:textSize="14dp"
                     android:text="냉장고 형태"
                     android:textColor="#4e4e4e"
                     android:layout_alignParentLeft="true"
@@ -54,6 +55,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:id = "@+id/spinner_fridge"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight = "2dp"
                     android:background="@drawable/box_radius_white"></Spinner>
             </RelativeLayout>
             <!-- 여백 -->
@@ -327,7 +331,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11dp"
+                            android:textSize="13dp"
                             android:text="냉동실 문"
                             android:textColor="#4e4e4e"
                             android:layout_alignParentLeft="true"
@@ -349,7 +353,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11dp"
+                            android:textSize="13dp"
                             android:text="냉동실 안"
                             android:textColor="#4e4e4e"
                             android:layout_alignParentLeft="true"
@@ -371,7 +375,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11dp"
+                            android:textSize="13dp"
                             android:text="냉장실 안"
                             android:textColor="#4e4e4e"
                             android:layout_alignParentLeft="true"
@@ -392,7 +396,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11dp"
+                            android:textSize="13dp"
                             android:text="냉장실 문"
                             android:textColor="#4e4e4e"
                             android:layout_alignParentLeft="true"
@@ -437,48 +441,55 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="120"></LinearLayout>
-    <!-- 버튼 두개 -->
+    <!--맨 밑 버튼 두개 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="100"
         android:orientation="horizontal"
-        android:weightSum="720">
+        android:weightSum="580">
+        <!--여백 -->
         <LinearLayout
             android:layout_width="0px"
             android:layout_height="match_parent"
-            android:layout_weight="100"></LinearLayout>
+            android:layout_weight="15"></LinearLayout>
 
         <Button
+            android:id="@+id/button_reset"
             android:layout_width="0px"
             android:layout_height="match_parent"
-            android:layout_weight="260"
+            android:layout_weight="275"
+            android:text="취소하기"
+            android:textColor="#4e4e4e"
+            android:textSize="15dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:padding="0px"
+            android:layout_margin="0px"
+            android:background="@drawable/box_radius_white"/>
+
+        <!--여백 -->
+        <!--
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="30"></LinearLayout>-->
+        <Button
+            android:id="@+id/button_apply"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="275"
             android:text="나가기"
-            android:textSize="16dp"
+            android:textColor="#4e4e4e"
             android:background="@drawable/box_radius_white"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:id="@+id/button_reset"/>
+            android:textSize="15dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:padding="0px"
+            android:layout_margin="0px" />
+        <!--여백 -->
         <LinearLayout
             android:layout_width="0px"
             android:layout_height="match_parent"
-            android:layout_weight="30"></LinearLayout>
-        <Button
-            android:layout_width="0px"
-            android:layout_height="match_parent"
-            android:layout_weight="260"
-            android:text="수정하기"
-            android:textSize="16dp"
-            android:background="@drawable/box_radius_white"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:id="@+id/button_apply"/>
-
-        <LinearLayout
-            android:layout_width="0px"
-            android:layout_height="match_parent"
-            android:layout_weight="100"></LinearLayout>
-
+            android:layout_weight="15"></LinearLayout>
     </LinearLayout>
     <!-- 여백 -->
     <LinearLayout

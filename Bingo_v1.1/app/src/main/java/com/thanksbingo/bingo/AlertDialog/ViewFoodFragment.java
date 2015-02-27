@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.thanksbingo.bingo.Adapter.HorizontalListViewAdapter;
 import com.thanksbingo.bingo.Calendar.CalendarFragment;
 import com.thanksbingo.bingo.R;
 import com.thanksbingo.bingo.speechtotext.SpeechToText;
@@ -43,6 +44,12 @@ public class ViewFoodFragment extends DialogFragment {
     private SpeechToText stt;
 
     BingoDB bingoDB;
+
+    private HorizontalListViewAdapter adapter = null;
+
+    public void setAdapter(HorizontalListViewAdapter ad) {
+        adapter = ad;
+    }
 
     public static ViewFoodFragment newInstance(String param1, String param2) {
         ViewFoodFragment fragment = new ViewFoodFragment();
@@ -89,7 +96,7 @@ public class ViewFoodFragment extends DialogFragment {
         expiry_date_text = (EditText)v.findViewById(R.id.view_food_fragment_edit_expiry);
 
         //Calendar 추가
-        CalendarFragment c = new CalendarFragment();
+        CalendarFragment c = new CalendarFragment(0);
         FragmentManager m = getChildFragmentManager();
         FragmentTransaction t = m.beginTransaction();
         t.add(R.id.view_food_fragment_calendar_container, c).commit();
@@ -152,6 +159,10 @@ public class ViewFoodFragment extends DialogFragment {
                         fif.history = 0;
 
                         bingoDB.writeDataToFoodInFridgeTable(fif);
+
+                        if (adapter != null)
+                            adapter.notifyDataSetChanged();
+
                     }
                 }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
             @Override

@@ -105,21 +105,13 @@ public class TabFirstDoor extends Fragment {
 
 //        public HorizontalListViewAdapter(Context context, ArrayList<String> _howManyRow, String _whatFridge) {
 
-        ListView lv = (ListView) v.findViewById(R.id.main_list);// 죽은건가? ㅋ 전체화면 풀어바
+        ListView lv = (ListView) v.findViewById(R.id.main_list);
         HorizontalScrollView hsv = (HorizontalScrollView) v.findViewById(R.id.main_horizontal);
         mAdapter = new HorizontalListViewAdapter(getActivity().getApplicationContext(), howManyFridge, whatFridge, getActivity().getSupportFragmentManager());
         lv.setAdapter(mAdapter);
         return v;
     }
-//도현이가 코드를 줬ㄴㄴ데 저기서 에러가 떠요
-//            도현이가 하라고 한건
-//    일단 tapfragment 를 자기가 준 파일로 모두 교체하고
-//            myBingofragment에서 수정하고 그 정도였는데
-//            준 fragment에서 에러가 나요 히힛
-//            HorizontalListViewAdapter 쪽은 고친거 없대?
-    //있어용ㅋㅋ 반영했어? ㅋ
-    //넹넹 ㅇ반영도 하고 고칠라고 하다보니 조금 수정된 곳도 있고 망함...
-    // ㅋㅋ 윤딧이 어케 넘겨줌?
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

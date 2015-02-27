@@ -226,7 +226,29 @@ public class BingoDB {
     }
 
     public void writeDataToFoodInFridgeTable(FoodInFridgeContract.FIFData data) {
-        new SavingFoodInFridgeDataToDB().execute(data);
+        //new SavingFoodInFridgeDataToDB().execute(data);
+        db = db_helper.getWritableDatabase();
+
+//        int param_cnt = fif_arr.length;
+//        for (int i = 0; i < param_cnt; i++) {
+
+//            FoodInFridgeContract.FIFData fif = fif_arr[i];
+        FoodInFridgeContract.FIFData fif = data;
+            ContentValues values = new ContentValues();
+            values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_ID, fif.food_id);
+            values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_FOOD_NAME, fif.food_name);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+            values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_REG_DATE, dateFormat.format(fif.reg_date));
+            values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_EXP_DATE, dateFormat.format(fif.exp_date));
+            values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_AMOUNT, fif.amount);
+            values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_POSITION, fif.position);
+            values.put(FoodInFridgeContract.FoodInFridge.COLUMN_NAME_HISTORY, fif.history);
+            db.insert(
+                    FoodInFridgeContract.FoodInFridge.TABLE_NAME,
+                    "null",
+                    values
+            );
+//        }
     }
 
     public void updateFoodInFridgeDataOnDB(FoodInFridgeContract.FIFData data) {

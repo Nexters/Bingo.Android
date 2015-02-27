@@ -15,10 +15,16 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.thanksbingo.bingo.Adapter.HorizontalListViewAdapter;
 import com.thanksbingo.bingo.Calendar.CalendarFragment;
 import com.thanksbingo.bingo.R;
 import com.thanksbingo.bingo.speechtotext.SpeechToText;
 import com.thanksbingo.db.BingoDB;
+import com.thanksbingo.db.FoodInFridgeContract;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class EditFoodFragment extends DialogFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,12 +42,20 @@ public class EditFoodFragment extends DialogFragment {
 
     private SpeechToText stt;
 
+    FoodInFridgeContract.FIFData fif = null;
+
     BingoDB bingoDB;
 
-    public static EditFoodFragment newInstance(String param1, String param2) {
+    private HorizontalListViewAdapter adapter = null;
+
+    public void setAdapter(HorizontalListViewAdapter ad) {
+        adapter = ad;
+    }
+
+    public static EditFoodFragment newInstance(int param1, String param2) {
         EditFoodFragment fragment = new EditFoodFragment();
         Bundle args = new Bundle();
-        args.putString(FIV_ID, param1);
+        args.putInt(FIV_ID, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -59,7 +73,8 @@ public class EditFoodFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.fragment_edit_food, container, false);
 
         bingoDB = new BingoDB(v.getContext());
-
+        int _id = getArguments().getInt(FIV_ID);
+        fif = bingoDB.getFIF(_id);
 
         foodNameEditText = (EditText)v.findViewById(R.id.edit_food_fragment_foodname);
         foodAmountText = (EditText)v.findViewById(R.id.edit_food_fragment_foodnum);
@@ -68,8 +83,14 @@ public class EditFoodFragment extends DialogFragment {
         entered_date_text = (EditText)v.findViewById(R.id.edit_food_fragment_entered_date);
         expiry_date_text = (EditText)v.findViewById(R.id.edit_food_fragment_edit_expiry);
 
+        foodNameEditText.setText(fif.food_name);
+        foodAmountText.setText(String.valueOf(fif.amount));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        entered_date_text.setText(simpleDateFormat.format(fif.reg_date));
+        expiry_date_text.setText(simpleDateFormat.format(fif.exp_date));
+
         //Calendar 추가
-        CalendarFragment c = new CalendarFragment();
+        CalendarFragment c = new CalendarFragment(1);
         FragmentManager m = getChildFragmentManager();
         FragmentTransaction t = m.beginTransaction();
         t.add(R.id.edit_food_fragment_calendar_container, c).commit();
@@ -101,44 +122,50 @@ public class EditFoodFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("수정하시겠습니까?").setCancelable(true)
                 .setPositiveButton("수정", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        dismissDialog();
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+
 //                        String food_name = foodNameEditText.getText().toString();
 //                        food_name = food_name.replace(" ", "");
-
-                        //아이디 값에 해당하는 음식 정보를 가져와서 edittext에 붙여넣기
-
-
-
-                       // fifd.
 
 //                        FoodInFridgeContract.FIFData fif = new FoodInFridgeContract.FIFData();
 //                        fif.food_name = food_name;
 //                        fif.food_id = bingoDB.getFoodInfoIdOf(food_name);
-//                        fif.amount = Integer.parseInt(foodAmountText.getText().toString());
+                                fif.amount = Integer.parseInt(foodAmountText.getText().toString());
 //                        fif.position = getArguments().getString(LOC_CODE);
-//                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-//                        try {
-//                            fif.reg_date = sdf.parse(entered_date_text.getText().toString());
-//                            fif.exp_date = sdf.parse(expiry_date_text.getText().toString());
-//                        } catch (ParseException e) {
-//                            e.printStackTrace();
-//                        }
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+                                try {
+                                    fif.reg_date = sdf.parse(entered_date_text.getText().toString());
+                                    fif.exp_date = sdf.parse(expiry_date_text.getText().toString());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
 //                        fif.history = 0;
 
-                        //bingoDB.writeDataToFoodInFridgeTable(fif);
-                    }
-                }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dismissDialog();
+                                bingoDB.updateFoodInFridgeDataOnDB(fif);
+                                if (adapter != null) {
+                                    adapter.notifyDataSetChanged();
+                                }
+                                dismissDialog();
+                            }
+                        }
 
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
+                ).
+
+                    setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dismissDialog();
+
+                                }
+                            }
+
+                    );
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
 
     public void onResume() {
         //없어질때 fade out 하는 애니메이션이죠

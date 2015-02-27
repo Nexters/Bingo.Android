@@ -109,7 +109,7 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
 
                 if (!f.flagFooter) {
                     if (f.fif.food_id < 0) {
-                        icon.setImageResource(R.drawable.ic_launcher);
+                        icon.setImageResource(R.drawable.subal);
                     }
                     else {
                         Bitmap icon_bitmap = BitmapFactory.decodeFile(bingoDB.getIconPath(f.fif.food_id)[0]);
@@ -121,7 +121,7 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
                                 FoodImageView this_view = (FoodImageView)v;
                                 int fiv_id = this_view.getFivId();
                                 Log.i(CONST_STRINGS.BINGO_LOG, "III" + fiv_id);
-                               // callEditFoodDialog(loc_code);
+                                callEditFoodDialog(fiv_id);
 
                             }
                         });
@@ -215,14 +215,16 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
     private void callViewFoodDialog(String loc_code) {
         FragmentManager fragmentManager = fm;
         ViewFoodFragment f = ViewFoodFragment.newInstance(loc_code, "Hi");
+        f.setAdapter(this);
         f.show(fm, "");
     }
 
     //추가 다이얼로그
     // 음식물 등록 Fragment
-    private void callEditFoodDialog(String fiv_id) {
+    private void callEditFoodDialog(int fiv_id) {
         FragmentManager fragmentManager = fm;
         EditFoodFragment f = EditFoodFragment.newInstance(fiv_id, "Hi");
+        f.setAdapter(this);
         f.show(fm, "");
     }
 }

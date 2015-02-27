@@ -101,9 +101,7 @@ public class TabSecondIn extends Fragment {
         //냉장고 어느 칸인지
         whatFridge = "0D";
 
-
         ListView lv = (ListView) v.findViewById(R.id.main_list);
-
 
         HorizontalScrollView hsv = (HorizontalScrollView) v.findViewById(R.id.main_horizontal);
         mAdapter = new HorizontalListViewAdapter(getActivity().getApplicationContext(), howManyFridge, whatFridge, getActivity().getSupportFragmentManager());

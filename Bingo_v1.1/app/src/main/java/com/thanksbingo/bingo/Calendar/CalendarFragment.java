@@ -11,6 +11,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.thanksbingo.bingo.AlertDialog.EditFoodFragment;
 import com.thanksbingo.bingo.AlertDialog.ViewFoodFragment;
 import com.thanksbingo.bingo.R;
 
@@ -32,7 +33,11 @@ public class CalendarFragment extends Fragment {
     //테스트하기위해 권장 유통기한날짜 변수
     private int foodDuration = 2;
 
-    public CalendarFragment(){}
+    private int type = 0;
+
+    public CalendarFragment(int type){
+        this.type = type;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,7 +120,10 @@ public class CalendarFragment extends Fragment {
         //startDate와 endDate 사이의 모든 날짜들을 highlight될 날짜 대상으로 지정한다.
         adapter.refreshHighlightDays(startDate, endDate);
         adapter.notifyDataSetChanged();
-        ViewFoodFragment.refreshDatesText(adapter.dateToString(startDate), adapter.dateToString(endDate));
+        if (type == 0)
+            ViewFoodFragment.refreshDatesText(adapter.dateToString(startDate), adapter.dateToString(endDate));
+        else
+            EditFoodFragment.refreshDatesText(adapter.dateToString(startDate), adapter.dateToString(endDate));
     }
 
     private boolean isStartDate(Date date) {
