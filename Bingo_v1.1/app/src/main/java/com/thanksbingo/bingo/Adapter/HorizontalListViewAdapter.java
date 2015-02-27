@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.thanksbingo.CONST_STRINGS;
+import com.thanksbingo.bingo.AlertDialog.EditFoodFragment;
 import com.thanksbingo.bingo.AlertDialog.ViewFoodFragment;
 import com.thanksbingo.bingo.Entities.Food;
 import com.thanksbingo.bingo.Entities.FoodImageView;
@@ -120,6 +121,8 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
                                 FoodImageView this_view = (FoodImageView)v;
                                 int fiv_id = this_view.getFivId();
                                 Log.i(CONST_STRINGS.BINGO_LOG, "III" + fiv_id);
+                               // callEditFoodDialog(loc_code);
+
                             }
                         });
                     }
@@ -140,6 +143,8 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
                     public void onClick(View v) {
                         Log.i(CONST_STRINGS.BINGO_LOG, "add btn " + loc_code);
                         callViewFoodDialog(loc_code);
+                        //callEditFoodDialog(loc_code);
+
                     }
                 });
                 //mLayout = mInflater.inflate(R.layout.list_footer, null);
@@ -212,4 +217,17 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
         ViewFoodFragment f = ViewFoodFragment.newInstance(loc_code, "Hi");
         f.show(fm, "");
     }
+
+
+
+    //추가 다이얼로그
+    // 음식물 등록 Fragment
+    private void callEditFoodDialog(String fiv_id) {
+        FragmentManager fragmentManager = fm;
+        EditFoodFragment f = EditFoodFragment.newInstance(fiv_id, "Hi");
+        f.show(fm, "");
+    }
+
+
+
 }

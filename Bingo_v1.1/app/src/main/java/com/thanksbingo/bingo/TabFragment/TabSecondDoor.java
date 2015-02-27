@@ -3,7 +3,6 @@ package com.thanksbingo.bingo.TabFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.RelativeLayout;
 
 import com.thanksbingo.CONST_STRINGS;
 import com.thanksbingo.bingo.Adapter.HorizontalListViewAdapter;
-import com.thanksbingo.bingo.AlertDialog.EditFoodFragment;
 import com.thanksbingo.bingo.Entities.DoorNo;
 import com.thanksbingo.bingo.Entities.Food;
 import com.thanksbingo.bingo.R;
@@ -133,15 +131,15 @@ public class TabSecondDoor extends Fragment {
     }
 
 
-
-    // 음식물 수정 및 보기 Fragment
-    private void callEditFoodDialog(String foodname, int count, String boughtdate, String expirydate) {
-
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-
-        EditFoodFragment f = EditFoodFragment.newInstance(foodname, count, boughtdate, expirydate);
-        f.show(fm, "");
-    }
+//
+//    // 음식물 수정 및 보기 Fragment
+//    private void callEditFoodDialog(String foodname, int count, String boughtdate, String expirydate) {
+//
+//        FragmentManager fm = getActivity().getSupportFragmentManager();
+//
+//        EditFoodFragment f = EditFoodFragment.newInstance(foodname, count, boughtdate, expirydate);
+//        f.show(fm, "");
+//    }
 
 
 }

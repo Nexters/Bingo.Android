@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.thanksbingo.bingo.AlertDialog.EditFoodFragment;
 import com.thanksbingo.bingo.AlertDialog.ViewFoodFragment;
 import com.thanksbingo.bingo.Entities.Food;
 import com.thanksbingo.bingo.R;
@@ -101,15 +100,15 @@ public class CustomerFragment extends Fragment {
     }
 
 
-    // 음식물 수정 및 보기 Fragment
-    private void callEditFoodDialog(String foodname, int count, String boughtdate, String expirydate ) {
-
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-
-        // AlertDialog에 값을 넘겨주는거에요
-        EditFoodFragment f = EditFoodFragment.newInstance(foodname, count, boughtdate, expirydate);
-        f.show(fm,"");
-    }
+//    // 음식물 수정 및 보기 Fragment
+//    private void callEditFoodDialog(String foodname, int count, String boughtdate, String expirydate ) {
+//
+//        FragmentManager fm = getActivity().getSupportFragmentManager();
+//
+//        // AlertDialog에 값을 넘겨주는거에요
+//        EditFoodFragment f = EditFoodFragment.newInstance(foodname, count, boughtdate, expirydate);
+//        f.show(fm,"");
+//    }
 
 
 
