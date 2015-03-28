@@ -107,7 +107,7 @@ public class DeadlineSecondAdapter extends ArrayAdapter<Food> {
         //4-7 임박 품목은 2 리턴
 
         //해당 음식물의 이름을 가져온다.
-        TextView text = (TextView) rootView.findViewById(R.id.txt_deadline);
+//        TextView text = (TextView) rootView.findViewById(R.id.txt_deadline);
 //        if (calDeadline(food.getExpiryDate()) == 2) {
 //            text.setText(food.getFoodName());
 //

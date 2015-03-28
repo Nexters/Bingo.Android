@@ -90,7 +90,11 @@ public class EditFoodFragment extends DialogFragment {
         expiry_date_text.setText(simpleDateFormat.format(fif.exp_date));
 
         //Calendar 추가
-        CalendarFragment c = new CalendarFragment(1);
+//        CalendarFragment c = new CalendarFragment(1);
+        CalendarFragment c = new CalendarFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", 1);
+        c.setArguments(bundle);
         FragmentManager m = getChildFragmentManager();
         FragmentTransaction t = m.beginTransaction();
         t.add(R.id.edit_food_fragment_calendar_container, c).commit();
@@ -126,7 +130,6 @@ public class EditFoodFragment extends DialogFragment {
                             public void onClick(DialogInterface dialog, int which) {
 
 
-
 //                        String food_name = foodNameEditText.getText().toString();
 //                        food_name = food_name.replace(" ", "");
 
@@ -134,17 +137,22 @@ public class EditFoodFragment extends DialogFragment {
 //                        fif.food_name = food_name;
 //                        fif.food_id = bingoDB.getFoodInfoIdOf(food_name);
                                 fif.amount = Integer.parseInt(foodAmountText.getText().toString());
+                                if (fif.amount == 0) {
+                                    bingoDB.deleteFoodInFridgeDataOnDB(fif._id);
+
+                                } else {
 //                        fif.position = getArguments().getString(LOC_CODE);
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-                                try {
-                                    fif.reg_date = sdf.parse(entered_date_text.getText().toString());
-                                    fif.exp_date = sdf.parse(expiry_date_text.getText().toString());
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
+                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+                                    try {
+                                        fif.reg_date = sdf.parse(entered_date_text.getText().toString());
+                                        fif.exp_date = sdf.parse(expiry_date_text.getText().toString());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
 //                        fif.history = 0;
 
-                                bingoDB.updateFoodInFridgeDataOnDB(fif);
+                                    bingoDB.updateFoodInFridgeDataOnDB(fif);
+                                }
                                 if (adapter != null) {
                                     adapter.notifyDataSetChanged();
                                 }

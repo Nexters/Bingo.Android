@@ -110,22 +110,29 @@ public class HorizontalListViewAdapter extends ArrayAdapter<String> {
                 if (!f.flagFooter) {
                     if (f.fif.food_id < 0) {
                         icon.setImageResource(R.drawable.subal);
+                        Log.i(CONST_STRINGS.BINGO_LOG, "GG");
                     }
                     else {
                         Bitmap icon_bitmap = BitmapFactory.decodeFile(bingoDB.getIconPath(f.fif.food_id)[0]);
-                        icon.setImageBitmap(icon_bitmap);
-                        icon.setFivId(f.fif._id);
-                        icon.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                FoodImageView this_view = (FoodImageView)v;
-                                int fiv_id = this_view.getFivId();
-                                Log.i(CONST_STRINGS.BINGO_LOG, "III" + fiv_id);
-                                callEditFoodDialog(fiv_id);
+                        if (icon_bitmap == null) {
+                            icon.setImageResource(R.drawable.subal);
+                        }
+                        else {
+                            icon.setImageBitmap(icon_bitmap);
+                        }
 
-                            }
-                        });
                     }
+                    icon.setFivId(f.fif._id);
+                    icon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FoodImageView this_view = (FoodImageView) v;
+                            int fiv_id = this_view.getFivId();
+                            Log.i(CONST_STRINGS.BINGO_LOG, "III" + fiv_id);
+                            callEditFoodDialog(fiv_id);
+
+                        }
+                    });
                 }
             }
             else {

@@ -29,5 +29,6 @@
         android:layout_height="wrap_content"
         android:text="이름"
         android:layout_gravity="center"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textColor="#4e4e4e"/>
 </LinearLayout>

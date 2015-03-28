@@ -86,6 +86,7 @@ public class ViewFoodFragment extends DialogFragment {
                     @Override
                     public void onCallbackSTT(String result) {
                         foodNameEditText.setText(result);
+                        foodAmountText.requestFocus();
                     }
                 });
             }
@@ -96,7 +97,11 @@ public class ViewFoodFragment extends DialogFragment {
         expiry_date_text = (EditText)v.findViewById(R.id.view_food_fragment_edit_expiry);
 
         //Calendar 추가
-        CalendarFragment c = new CalendarFragment(0);
+//        CalendarFragment c = new CalendarFragment(0);
+        CalendarFragment c = new CalendarFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", 0);
+        c.setArguments(bundle);
         FragmentManager m = getChildFragmentManager();
         FragmentTransaction t = m.beginTransaction();
         t.add(R.id.view_food_fragment_calendar_container, c).commit();

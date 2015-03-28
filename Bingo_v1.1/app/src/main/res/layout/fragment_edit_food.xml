@@ -1,5 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="290dp" android:layout_height="455dp"
+    android:layout_width="290dp"
+    android:layout_height="455dp"
+    android:padding="10dp"
     >
     <ImageView
         android:layout_width="match_parent"

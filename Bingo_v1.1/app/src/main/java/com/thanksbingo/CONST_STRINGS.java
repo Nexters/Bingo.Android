@@ -3,6 +3,7 @@ package com.thanksbingo;
 /**
  * Created by Hagyut on 2015. 2. 12..
  */
+
 public class CONST_STRINGS {
 
     public static final String BINGO_LOG = "BINGO LOG";

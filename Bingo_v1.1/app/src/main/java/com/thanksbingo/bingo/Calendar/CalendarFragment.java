@@ -35,9 +35,17 @@ public class CalendarFragment extends Fragment {
 
     private int type = 0;
 
-    public CalendarFragment(int type){
-        this.type = type;
+    public CalendarFragment() {}
+
+    @Override
+    public void setArguments(Bundle args) {
+        super.setArguments(args);
+        args.getInt("type", type);
     }
+
+//    public CalendarFragment(int type){
+//        this.type = type;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

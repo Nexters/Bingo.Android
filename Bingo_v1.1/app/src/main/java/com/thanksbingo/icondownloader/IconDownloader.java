@@ -88,12 +88,94 @@ public class IconDownloader {
             throw new UndecidedIconsDirPath("Undecided path of directory where store icon image file.");
         }
 
-        ArrayList<String> t_iconURLs = new ArrayList<String>();
-        t_iconURLs.add(iconUrl);
-        new ImageDownloader().execute(t_iconURLs);
+//        ArrayList<String> t_iconURLs = new ArrayList<String>();
+//        t_iconURLs.add(iconUrl);
+//        new ImageDownloader().execute(t_iconURLs);
 
-        return generateComplicateFileName(iconUrl);
+        BitmapAndFileName data = new BitmapAndFileName();
+        data.url = iconUrl;
+        data.bitmap = downloadBitmap(data.url);
+
+        String fileName = generateComplicateFileName(data.url);
+
+        String iconsStoragePath = Environment.getExternalStorageDirectory() + dirPath;
+        File sdIconStorageDir = new File(iconsStoragePath);
+        sdIconStorageDir.mkdirs();
+
+        try {
+            String filePath = sdIconStorageDir.toString() + "/" + fileName;
+            File f = new File(filePath);
+            if (f.exists())
+                return fileName;
+            else {
+
+                FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+
+                BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
+                data.bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+
+                bos.flush();
+                bos.close();
+            }
+
+        } catch (FileNotFoundException e) {
+            Log.w("TAG", "Error saving image file: " + e.getMessage());
+        } catch (IOException e) {
+            Log.w("TAG", "Error saving image file: " + e.getMessage());
+        }
+
+        return fileName;
     }
+
+    private Bitmap downloadBitmap(String url) {
+
+        final DefaultHttpClient client = new DefaultHttpClient();
+        final HttpGet getRequest = new HttpGet(url);
+
+        try {
+
+            HttpResponse response = client.execute(getRequest);
+
+            final int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != HttpStatus.SC_OK) {
+                Log.w("ImageDownloader", "Error " + statusCode + " while retrieving bitmap from " + url);
+                return null;
+            }
+
+            final HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                InputStream inputStream = null;
+                try {
+                    inputStream = entity.getContent();
+                    final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    return bitmap;
+                } finally {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                    entity.consumeContent();
+                }
+            }
+        } catch (Exception e) {
+            // You Could provide a more explicit error message for IOException
+            getRequest.abort();
+            Log.e("ImageDownloader", "Something went wrong while" + " retrieving bitmap from " + url + e.toString());
+        }
+
+        return null;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public ArrayList<String> downloadIconImages() throws NoIconUrlException, UndecidedIconsDirPath {
 
@@ -130,11 +212,6 @@ public class IconDownloader {
             }
 
             return dataToGoOnPostExecute;
-        }
-
-        @Override
-        protected void onPreExecute() {
-
         }
 
         @Override
@@ -220,8 +297,9 @@ public class IconDownloader {
 
         String fileName = image_url;
         //String ext = getExtOfFile(fileName);
-        String ext = "png";
-        fileName = generateSHA256(fileName) + "." + ext;
+//        String ext = "png";
+//        fileName = generateSHA256(fileName) + "." + ext;
+        fileName = generateSHA256(fileName);
 
         return fileName;
     }

@@ -28,16 +28,6 @@ public class RecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_recipe, container, false);
-        // Inflate the layout for this fragment
-        Button btn_custom = (Button)v.findViewById(R.id.btn_fridge_custom);
-        btn_custom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity(), FridgeCustom.class);
-                startActivity(i);
-
-            }
-        });
         return v;
     }
 

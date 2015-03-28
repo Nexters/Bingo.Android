@@ -119,6 +119,26 @@ public class BingoDB {
         return food_id;
     }
 
+    public void writeFoodInfoToDB(FoodInfoContract.FIData data) {
+
+        db = db_helper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FoodInfoContract.FoodInfo._ID, data.food_id);
+        values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_FOOD_NAME, data.food_name);
+        values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_REC_EXP, data.rec_exp);
+        values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG1, data.icon_img1);
+        values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_ICON_IMG2, data.icon_img2);
+        values.put(FoodInfoContract.FoodInfo.COLUMN_NAME_FREQUENCY, data.frequency);
+
+        db.insert(
+                FoodInfoContract.FoodInfo.TABLE_NAME,
+                "null",
+                values
+        );
+
+    }
+
     public void initiateFoodInfoDbAndStartFirstActivity(final Class<?> cls) {
 
         BingoHttpClient bh_client = new BingoHttpClient();
@@ -161,6 +181,32 @@ public class BingoDB {
             }
         });
     }
+
+    private void handleFoodInfoJSONArray(JSONArray jArray) {
+        try {
+            IconDownloader icon_downloader = new IconDownloader(null, CONST_STRINGS.ICON_PATH);
+            for (int i = 0; i < jArray.length(); i++) {
+                JSONObject food_info = jArray.getJSONObject(i);
+                FoodInfoContract.FIData data = new FoodInfoContract.FIData();
+                data.food_id = food_info.getInt("food_id");
+                data.food_name = food_info.getString("food_name");
+                data.rec_exp = food_info.getInt("rec_exp");
+                data.frequency = food_info.getInt("frequency");
+                try {
+                    data.icon_img1 = icon_downloader.downloadIconImage(food_info.getString("icon1"));
+                    data.icon_img2 = icon_downloader.downloadIconImage(food_info.getString("icon2"));
+                } catch (IconDownloader.NoIconUrlException e) {
+                    e.printStackTrace();
+                } catch (IconDownloader.UndecidedIconsDirPath e) {
+                    e.printStackTrace();
+                }
+                writeDataToFoodInfoTable(data);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void updateFoodInfoDbAndStartFirstActivity(final Class<?> cls) {
 
@@ -650,6 +696,8 @@ public class BingoDB {
      *      FoodInfo 테이블 데이터 쓰기 및 수정
      */
 
+
+
     private void writeDataToFoodInfoTable(FoodInfoContract.FIData data) {
 
         new SavingFoodInfoDataToDB().execute(data);
@@ -700,30 +748,6 @@ public class BingoDB {
 
     }
 
-    private void handleFoodInfoJSONArray(JSONArray jArray) {
-        try {
-            IconDownloader icon_downloader = new IconDownloader(null, CONST_STRINGS.ICON_PATH);
-            for (int i = 0; i < jArray.length(); i++) {
-                JSONObject food_info = jArray.getJSONObject(i);
-                FoodInfoContract.FIData data = new FoodInfoContract.FIData();
-                data.food_id = food_info.getInt("food_id");
-                data.food_name = food_info.getString("food_name");
-                data.rec_exp = food_info.getInt("rec_exp");
-                data.frequency = food_info.getInt("frequency");
-                try {
-                    data.icon_img1 = icon_downloader.downloadIconImage(food_info.getString("icon1"));
-                    data.icon_img2 = icon_downloader.downloadIconImage(food_info.getString("icon2"));
-                } catch (IconDownloader.NoIconUrlException e) {
-                    e.printStackTrace();
-                } catch (IconDownloader.UndecidedIconsDirPath e) {
-                    e.printStackTrace();
-                }
-                writeDataToFoodInfoTable(data);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     /*      End
      *

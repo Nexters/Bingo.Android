@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Bingo</string>
@@ -5,9 +6,11 @@
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logout">로그아웃</string>
+    <string name="exit">나가기</string>
     <string name="deadline_text_13">    유통기한 임박물품 (1-3일)</string>
     <string name="deadline_text_47">    유통기한 임박물품 (4-7일)</string>
     <string name="title_activity_list_view_checkboxes">유통기한임박물품</string>
     <string name="title_activity_popup_demo">PopupDemoActivity</string>
+    <string name="title_activity_video">VideoActivity</string>
 
 </resources>
